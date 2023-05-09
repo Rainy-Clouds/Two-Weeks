@@ -29,6 +29,10 @@ public class BRMenuManager
         {
             cgui.update();
         }
+        if(sgui != null)
+        {
+            sgui.update(game);
+        }
     }   
     
     public void render(Graphics g)
@@ -78,5 +82,15 @@ public class BRMenuManager
         {
             cgui.invalidated();
         }
+    }
+
+    public ClientGUI getCGUI()
+    {
+        return cgui;
+    }
+
+    public ServerGUI getSGUI()
+    {
+        return sgui;
     }
 }

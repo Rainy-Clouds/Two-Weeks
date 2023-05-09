@@ -7,6 +7,7 @@ public class Client implements Runnable
     private boolean running;
     private String ip;
     private Game game;
+    private String name = "Player";
 
     public Client(String hostIp, Game g)
     {
@@ -15,6 +16,11 @@ public class Client implements Runnable
         running = true;
         Thread thread = new Thread(this);
         thread.start();
+    }
+
+    public void setName(String newName)
+    {
+        name = newName;
     }
 
     public void run()
@@ -38,10 +44,14 @@ public class Client implements Runnable
             game.removeClient();
             Thread.currentThread().stop();
         }
+        else
+        {
+            game.getBRMenu().getCGUI().connectionEstablished();
+        }
 
         while(running)
         {
-            int[] locals = {0, 0};
+            //int[] locals = {0, 0};
 
             try
             {
@@ -51,7 +61,10 @@ public class Client implements Runnable
 
                 PrintStream dout = new PrintStream(s.getOutputStream());
                 //BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                dout.println(Converter.intArrToString(locals));
+                if(game.getState().equals("battle royale menu"))
+                {
+                    dout.println(name);
+                }
                 //System.out.println(reader.readLine());
                 dout.flush();
                 //dout.close();

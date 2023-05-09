@@ -18,7 +18,7 @@ public class TextField
         actNum = action;
         width = w;
         height = h;
-        currentString = "hi";
+        currentString = "";
         font = new Font("Arial", Font.PLAIN, fontSize);
 
         active = true;
@@ -47,7 +47,10 @@ public class TextField
 
     public void addToString(char c)
     {
-        currentString += c;
+        if(currentString.length() <= 24)
+        {
+            currentString += c;
+        }
     }
 
     public void removeChar()
@@ -64,6 +67,18 @@ public class TextField
         {
             parentGUI.startConnecting();
             game.createClient(currentString);
+        }
+        if(actNum == 1)
+        {
+            if(currentString.contains(" "))
+            {
+                parentGUI.invalidateName();
+            }
+            else
+            {
+                parentGUI.validateName();
+                game.getClient().setName(currentString);
+            }
         }
     }
 

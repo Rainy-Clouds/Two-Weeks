@@ -19,6 +19,11 @@ public class Game
         state = newState;
     }
 
+    public String getState()
+    {
+        return state;
+    }
+
     public void update()
     {
         InteractiveColor.update();
@@ -47,8 +52,8 @@ public class Game
 
     public void becomeServer()
     {
-        server = new Server();
         brmenu.changeScreen("Server");
+        server = new Server(this);
     }
 
     public void becomeClient()
@@ -66,5 +71,20 @@ public class Game
     {
         client = null;
         brmenu.warnCGUI();
+    }
+
+    public BRMenuManager getBRMenu()
+    {
+        return brmenu;
+    }
+
+    public Server getServer()
+    {
+        return server;
+    }
+
+    public Client getClient()
+    {
+        return client;
     }
 }

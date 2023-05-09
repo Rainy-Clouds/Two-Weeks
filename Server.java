@@ -3,11 +3,13 @@ import java.net.*;
 public class Server implements Runnable
 {
     private boolean running = false;
+    private Game game;
     // private int[] ports = {125, 128, 211, 309, 417, 617, 906, 1117};
     // private boolean[] activePorts = new boolean[8];
 
-    public Server()
+    public Server(Game g)
     {
+        game = g;
         running = true;
         Thread thread = new Thread(this);
         thread.start();
@@ -59,17 +61,20 @@ public class Server implements Runnable
             Data.playerCount = player;
             try
             {
-                System.out.println(("" + InetAddress.getLocalHost()).split("/")[1]);
+                game.getBRMenu().getSGUI().setIP(("" + InetAddress.getLocalHost()).split("/")[1]);
                 soc = svSoc.accept();
                 System.out.println("Client found!");
             }
             catch(Exception e)
             {
-                System.out.println(e);
+                e.printStackTrace(System.out);;
             }
 
-            new EchoThread(soc, player).start();
-            player++;
+            if(soc != null)
+            {
+                new EchoThread(soc, game, player).start();
+                player++;
+            }
         }
 
         // while(running)
