@@ -22,6 +22,16 @@ public class Player
         return y;
     }
 
+    public int getScreenX()
+    {
+        return (x + width / 2) - 400;
+    }
+
+    public int getScreenY()
+    {
+        return (y + height /2 ) - 300;
+    }
+
     public void update()
     {
         keyActions();

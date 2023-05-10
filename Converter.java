@@ -30,7 +30,7 @@ public class Converter
     public static String intArrLToString(ArrayList<Integer> arr)
     {
         String str = "";
-        if(arr.size() > 1)
+        if(arr.size() > 0)
         {
             for(int i = 0; i < arr.size() - 1; i++)
             {

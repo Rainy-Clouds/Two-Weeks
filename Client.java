@@ -1,6 +1,6 @@
 import java.io.*;
 import java.net.*;
-//import java.util.Scanner;
+import java.util.Arrays;
 
 public class Client implements Runnable
 {
@@ -78,10 +78,12 @@ public class Client implements Runnable
                 if(game.getState().equals("battle royale"))
                 {
                     dout.println("B " + game.getBRClient().getPlayer().getX() + " " + game.getBRClient().getPlayer().getY());
-                    // String str = reader.readLine();
-                    // String[] parsed = str.split(" ");
-                    // Data.playerX = Converter.stringToIntArrL(parsed[0]);
-                    // Data.playerY = Converter.stringToIntArrL(parsed[0]);
+                    String str = reader.readLine();
+                    //System.out.println(str);
+                    String[] parsed = str.split("~");
+                    //System.out.println(Arrays.toString(parsed));
+                    Data.playerX = Converter.stringToIntArrL(parsed[0]);
+                    Data.playerY = Converter.stringToIntArrL(parsed[1]);
                 }
                 //System.out.println(reader.readLine());
                 dout.flush();
@@ -92,7 +94,7 @@ public class Client implements Runnable
             }
             catch(Exception e)
             {
-                System.out.println(e);
+                e.printStackTrace(System.out);
             }
         }
 

@@ -56,7 +56,8 @@ public class EchoThread extends Thread
                     {
                         Data.playerX.set(playerNum, Integer.valueOf(parsed[1]));
                         Data.playerY.set(playerNum, Integer.valueOf(parsed[2]));
-                        printer.println(Converter.intArrLToString(Data.playerX) + "|" + Converter.intArrLToString(Data.playerY));
+                        System.out.println(Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY));
+                        printer.println(Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY));
                     }
                     else
                     {

@@ -122,7 +122,7 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(currentField != null && (int)e.getKeyChar() >= 32 && (int)e.getKeyChar() <= 126)
+        if(currentField != null && (int)e.getKeyChar() >= 32 && (int)e.getKeyChar() <= 125)
         {
             currentField.addToString(e.getKeyChar());
         }
