@@ -5,9 +5,12 @@ public class Game
     private String state;
     private Server server;
     private Client client;
+    private String role;
 
     private TitleManager title = new TitleManager();
     private BRMenuManager brmenu = new BRMenuManager();
+    private BattleRoyaleServer brs;
+    private BattleRoyaleClient brc;
 
     public Game(String state)
     {
@@ -24,6 +27,16 @@ public class Game
         return state;
     }
 
+    public void setRole(String newRole)
+    {
+        role = newRole;
+    }
+
+    public String getRole()
+    {
+        return role;
+    }
+
     public void update()
     {
         InteractiveColor.update();
@@ -34,6 +47,17 @@ public class Game
         if(state.equals("battle royale menu"))
         {
             brmenu.update(this);
+        }
+        if(state.equals("battle royale") && role != null)
+        {
+            if(role.equals("Client"))
+            {
+                brc.update(this);
+            }
+            else
+            {
+                brs.update(this);
+            }
         }
     }
 
@@ -47,11 +71,24 @@ public class Game
         {
             brmenu.render(g);
         }
+        if(state.equals("battle royale") && role != null)
+        {
+            if(role.equals("Client"))
+            {
+                brc.render(g);
+            }
+            else
+            {
+                brs.render(g);
+            }
+        }
         Transition.draw(g, this);
     }
 
     public void becomeServer()
     {
+        role = "Server";
+        brs = new BattleRoyaleServer();
         brmenu.changeScreen("Server");
         server = new Server(this);
     }
@@ -59,6 +96,8 @@ public class Game
     public void becomeClient()
     {
         //client = new Client();
+        role = "Client";
+        brc = new BattleRoyaleClient();
         brmenu.changeScreen("Client");
     }
 
@@ -73,9 +112,22 @@ public class Game
         brmenu.warnCGUI();
     }
 
+    public void startBattleRoyale()
+    {
+        if(server != null)
+        {
+            server.clientsStart();
+        }
+    }
+
     public BRMenuManager getBRMenu()
     {
         return brmenu;
+    }
+
+    public BattleRoyaleClient getBRClient()
+    {
+        return brc;
     }
 
     public Server getServer()

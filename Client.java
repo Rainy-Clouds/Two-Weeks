@@ -8,6 +8,8 @@ public class Client implements Runnable
     private String ip;
     private Game game;
     private String name = "Player";
+    
+    public static int playerNum;
 
     public Client(String hostIp, Game g)
     {
@@ -60,10 +62,26 @@ public class Client implements Runnable
                 //scan.close();
 
                 PrintStream dout = new PrintStream(s.getOutputStream());
-                //BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
                 if(game.getState().equals("battle royale menu"))
                 {
-                    dout.println(name);
+                    dout.println("A " + name);
+
+                    String str = reader.readLine();
+                    String[] parsed = str.split(" ");
+                    if(parsed[0].equals("start"))
+                    {
+                        playerNum = Integer.valueOf(parsed[1]);
+                        Transition.switchState("battle royale");
+                    }
+                }
+                if(game.getState().equals("battle royale"))
+                {
+                    dout.println("B " + game.getBRClient().getPlayer().getX() + " " + game.getBRClient().getPlayer().getY());
+                    // String str = reader.readLine();
+                    // String[] parsed = str.split(" ");
+                    // Data.playerX = Converter.stringToIntArrL(parsed[0]);
+                    // Data.playerY = Converter.stringToIntArrL(parsed[0]);
                 }
                 //System.out.println(reader.readLine());
                 dout.flush();

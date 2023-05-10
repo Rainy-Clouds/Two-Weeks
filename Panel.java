@@ -18,6 +18,7 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
     public static int mousex, mousey;
     public static boolean mouseDown;
     public static TextField currentField;
+    public static boolean[] keyMap = new boolean[4]; // up down left right
 
     public Panel()
     {
@@ -137,11 +138,41 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // Nothing
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Up"))
+        {
+            keyMap[0] = true;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Down"))
+        {
+            keyMap[1] = true;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Left"))
+        {
+            keyMap[2] = true;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Right"))
+        {
+            keyMap[3] = true;
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // Nothing
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Up"))
+        {
+            keyMap[0] = false;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Down"))
+        {
+            keyMap[1] = false;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Left"))
+        {
+            keyMap[2] = false;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Right"))
+        {
+            keyMap[3] = false;
+        }
     }
 }

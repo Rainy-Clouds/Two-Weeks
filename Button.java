@@ -128,5 +128,9 @@ public class Button
         {
             game.becomeClient();
         }
+        if(action == 6)
+        {
+            game.getBRMenu().getSGUI().startCountdown();
+        }
     }
 }

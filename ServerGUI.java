@@ -5,6 +5,8 @@ public class ServerGUI
     private String ip;
     private ServerList list;
     private Button start;
+    private boolean countingDown, postCD;
+    private int startFrame;
 
     public ServerGUI()
     {
@@ -20,6 +22,22 @@ public class ServerGUI
     public void update(Game game)
     {
         start.update(game);
+
+        if(countingDown)
+        {
+            if(Panel.frame - startFrame > 180)
+            {
+                game.startBattleRoyale();
+                countingDown = false;
+                postCD = true;
+            }
+        }
+    }
+
+    public void startCountdown()
+    {
+        countingDown = true;
+        startFrame = Panel.frame;
     }
 
     public void render(Graphics g, int offset)
@@ -29,20 +47,32 @@ public class ServerGUI
         g.setFont(new Font("Arial", Font.PLAIN, 24));
         Algo.centerString(g, "players joined", 820 + offset, 60, 200, 500);
         g.setFont(new Font("Arial", Font.PLAIN, 48));
-        Algo.centerString(g, "Join code: " + ip, 800 + offset, 475, 800, 125);
+        if(countingDown)
+        {
+            g.setColor(Color.RED);
+            Algo.centerString(g, "Game starting in " + (((180 - (Panel.frame - startFrame + 1)) / 60) + 1) + "...", 800 + offset, 475, 800, 125);
+        }
+        else
+        {
+            g.setColor(Color.WHITE);
+            Algo.centerString(g, "Join code: " + ip, 800 + offset, 475, 800, 125);
+        }
 
         // g.setColor(Color.GRAY);
         // g.fillRect(1050 + offset, 135, 475, 340);
         list.render(g, 1050 + offset, 135);
 
         start.setLocation(845 + offset, 375);
-        if(Data.playerCount <= 1)
+        if(Data.playerCount <= -1)
         {
             start.setActive(false);
         }
         else
         {
-            start.setActive(true);
+            if(!countingDown && !postCD)
+            {
+                start.setActive(true);
+            }
             start.render(g);
         }
     }    

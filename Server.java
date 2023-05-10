@@ -1,9 +1,11 @@
 import java.net.*;
+import java.util.ArrayList;
 
 public class Server implements Runnable
 {
     private boolean running = false;
     private Game game;
+    private ArrayList<EchoThread> echoes = new ArrayList<EchoThread>();
     // private int[] ports = {125, 128, 211, 309, 417, 617, 906, 1117};
     // private boolean[] activePorts = new boolean[8];
 
@@ -41,6 +43,22 @@ public class Server implements Runnable
         // }
     }
 
+    public void clientsStart()
+    {
+        for(int i = 0; i < echoes.size(); i++)
+        {
+            echoes.get(i).relayMessage("start");
+        }
+
+        for(int i = 0; i < Data.names.size(); i++)
+        {
+            Data.playerX.add(null);
+            Data.playerY.add(null);
+        }
+
+        Transition.switchState("battle royale");
+    }
+
     public void run()
     {
         ServerSocket svSoc = null;
@@ -72,7 +90,8 @@ public class Server implements Runnable
 
             if(soc != null)
             {
-                new EchoThread(soc, game, player).start();
+                echoes.add(new EchoThread(soc, game, player));
+                echoes.get(echoes.size() - 1).start();
                 player++;
             }
         }
