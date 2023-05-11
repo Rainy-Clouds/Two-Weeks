@@ -11,7 +11,7 @@ public class BattleRoyaleClient
 
     public void update(Game game)
     {
-        player.update();
+        player.update(game);
     }
 
     public void render(Graphics g)
@@ -22,7 +22,7 @@ public class BattleRoyaleClient
         for(int i = 0; i < Data.playerX.size(); i++)
         {
             if(i != Client.playerNum)
-            {
+            {               
                 g.fillRect(Data.playerX.get(i) + (0 - player.getScreenX()), Data.playerY.get(i) + (0 - player.getScreenY()), 40, 40);
             }
         }

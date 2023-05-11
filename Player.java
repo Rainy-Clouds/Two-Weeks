@@ -3,6 +3,7 @@ import java.awt.*;
 public class Player 
 {
     private int x, y, width, height;
+    private Nametag tag = new Nametag();
     
     public Player(int x, int y, int w, int h)
     {
@@ -32,9 +33,10 @@ public class Player
         return (y + height /2 ) - 300;
     }
 
-    public void update()
+    public void update(Game game)
     {
         keyActions();
+        tag.setName(game.getClient().getName());
         //System.out.println(x + ", " + y);
     }
 
@@ -60,6 +62,7 @@ public class Player
 
     public void render(Graphics g)
     {
+        tag.render(g, 400, 200);
         g.setColor(Color.RED);
         g.fillRect(400 - width / 2, 300 - height / 2, width, height);
     }

@@ -51,4 +51,29 @@ public class Converter
         }
         return arr;
     }
+
+    public static String stringListToString(ArrayList<String> arr)
+    {
+        String str = "";
+        if(arr.size() > 0)
+        {
+            for(int i = 0; i < arr.size() - 1; i++)
+            {
+                str += arr.get(i) + " ";
+            }
+            str += arr.get(arr.size() - 1);
+        }
+        return str;
+    }
+
+    public static ArrayList<String> stringToStringList(String str)
+    {
+        String[] strArr = str.split(" ");
+        ArrayList<String> arr = new ArrayList<String>();
+        for(int i = 0; i < strArr.length; i++)
+        {
+            arr.add(strArr[i]);
+        }
+        return arr;
+    }
 }

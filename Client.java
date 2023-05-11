@@ -25,6 +25,11 @@ public class Client implements Runnable
         name = newName;
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
     public void run()
     {
         Socket s = null;
@@ -82,8 +87,9 @@ public class Client implements Runnable
                     //System.out.println(str);
                     String[] parsed = str.split("~");
                     //System.out.println(Arrays.toString(parsed));
-                    Data.playerX = Converter.stringToIntArrL(parsed[0]);
-                    Data.playerY = Converter.stringToIntArrL(parsed[1]);
+                    Data.names = Converter.stringToStringList(parsed[0]);
+                    Data.playerX = Converter.stringToIntArrL(parsed[1]);
+                    Data.playerY = Converter.stringToIntArrL(parsed[2]);
                 }
                 //System.out.println(reader.readLine());
                 dout.flush();
