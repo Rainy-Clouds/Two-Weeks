@@ -62,7 +62,7 @@ public class Player
 
     public void render(Graphics g)
     {
-        tag.render(g, 400, 200);
+        tag.render(g, 400, 250);
         g.setColor(Color.RED);
         g.fillRect(400 - width / 2, 300 - height / 2, width, height);
     }
