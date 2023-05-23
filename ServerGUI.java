@@ -25,7 +25,7 @@ public class ServerGUI
 
         if(countingDown)
         {
-            if(Panel.frame - startFrame > 180)
+            if(Panel.frame - startFrame > /*18*/0) // PLAY TEST REMOVE
             {
                 game.startBattleRoyale();
                 countingDown = false;

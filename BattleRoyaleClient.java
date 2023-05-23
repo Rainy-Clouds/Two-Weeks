@@ -2,7 +2,9 @@ import java.awt.*;
 
 public class BattleRoyaleClient
 {
-    private Player player = new Player(0, 0, 40, 40);
+    public static int playerSize = 60;
+
+    private Player player = new Player(0, 0, playerSize, playerSize);
     private Environment env = new Environment();
 
     public Player getPlayer()
@@ -12,7 +14,8 @@ public class BattleRoyaleClient
 
     public void update(Game game)
     {
-        player.update(game);
+        env.update(player);
+        player.update(game, env.getRock());
     }
 
     public void render(Graphics g)

@@ -9,4 +9,14 @@ public class Algo
         int stry = y + ((h - metrics.getHeight()) / 2) + metrics.getAscent();
         g.drawString(str, strx, stry);
     }    
+
+    public static int getLocalX(int globalX, Player p)
+    {
+        return globalX + (0 - p.getScreenX());
+    }
+
+    public static int getLocalY(int globalY, Player p)
+    {
+        return globalY + (0 - p.getScreenY());
+    }
 }

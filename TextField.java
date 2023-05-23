@@ -18,7 +18,7 @@ public class TextField
         actNum = action;
         width = w;
         height = h;
-        currentString = "192.168.1.38";
+        currentString = "192.168.1.153"; // PLAY TEST REMOVE
         font = new Font("Arial", Font.PLAIN, fontSize);
 
         active = true;
