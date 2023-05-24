@@ -1,5 +1,5 @@
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class Player 
 {
@@ -41,35 +41,43 @@ public class Player
         return (y + height / 2) - 300;
     }
 
-    public void update(Game game, Rock r)
+    public void update(Game game, ArrayList<Obstacle> obs)
     {
-        keyActions(r);
+        keyActions(obs);
         tag.setName(game.getClient().getName());
         //System.out.println(x + ", " + y);
-        if(rect.intersects(r.getRect()))
-        {
-            System.out.println("look at what you did");
-        }
     }
 
-    public void keyActions(Rock r)
+    public void keyActions(ArrayList<Obstacle> obs)
     {
-        if(Panel.keyMap[0] && !rectT.intersects(r.getRect()))
+        if(Panel.keyMap[0] && !touchingArray(rectT, obs))
         {
             y -= 5;
         }
-        if(Panel.keyMap[1] && !rectB.intersects(r.getRect()))
+        if(Panel.keyMap[1] && !touchingArray(rectB, obs))
         {
             y += 5;
         }
-        if(Panel.keyMap[2] && !rectL.intersects(r.getRect()))
+        if(Panel.keyMap[2] && !touchingArray(rectL, obs))
         {
             x -= 5;
         }
-        if(Panel.keyMap[3] && !rectR.intersects(r.getRect()))
+        if(Panel.keyMap[3] && !touchingArray(rectR, obs))
         {
             x += 5;
         }
+    }
+
+    public boolean touchingArray(Rectangle rec, ArrayList<Obstacle> obs)
+    {
+        for(int i = 0; i < obs.size(); i++)
+        {
+            if(rec.intersects(obs.get(i).getRect()))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void renderRect(Rectangle r, Graphics g)

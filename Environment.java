@@ -1,10 +1,11 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Environment 
 {
     private Nametag[] tags = new Nametag[8];
     private Map map = new Map();
-    private Rock test = new Rock(200, 200);
+    private ArrayList<Obstacle> obs = new ArrayList<Obstacle>();
     
     public Environment()
     {
@@ -12,23 +13,34 @@ public class Environment
         {
             tags[i] = new Nametag();
         }
+
+        obs = map.updateObstacles();
+
+        obs.add(new Rock(200, 200, 100));
+        obs.add(new Rock(400, 400, 100));
     }
 
-    public Rock getRock()
+    public ArrayList<Obstacle> getObstacles()
     {
-        return test;
+        return obs;
     }
 
     public void update(Player player)
     {
-        test.update(player);
+        for(int i = 0; i < obs.size(); i++)
+        {
+            obs.get(i).update(player);
+        }
     }
 
     public void render(Graphics g, Player player)
     {
         map.render(g, player);
         g.setColor(Color.BLUE);
-        test.render(g, player);
+        for(int i = 0; i < obs.size(); i++)
+        {
+            obs.get(i).render(g, player);
+        }
         for(int i = 0; i < Data.playerX.size(); i++)
         {
             if(i != Client.playerNum)

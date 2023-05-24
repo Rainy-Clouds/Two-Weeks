@@ -1,32 +1,15 @@
 import java.awt.*;
 
-public class Rock 
+public class Rock extends Obstacle
 {
-    private int globalX;
-    private int globalY;
-    private Rectangle rect;
-
-    public Rock(int x, int y)
+    public Rock(int x, int y, int size)
     {
-        globalX = x;
-        globalY = y;
-
-        rect = new Rectangle(x, y, 100, 100);
-    }
-
-    public Rectangle getRect()
-    {
-        return rect;
-    }
-
-    public void update(Player p)
-    {
-        rect.setBounds(Algo.getLocalX(globalX, p), Algo.getLocalY(globalY, p), 100, 100);
+        super(x, y, size, size);
     }
 
     public void render(Graphics g, Player p)
     {
         g.setColor(Color.GRAY);
-        g.fillRect(Algo.getLocalX(globalX, p), Algo.getLocalY(globalY, p), 100, 100);
+        g.fillRect((int)super.getRect().getX(), (int)super.getRect().getY(), (int)super.getRect().getWidth(), (int)super.getRect().getHeight());
     }
 }

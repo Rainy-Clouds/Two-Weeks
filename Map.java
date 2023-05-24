@@ -1,14 +1,16 @@
 import java.awt.*;
 import java.io.File;
-import java.util.Scanner;
+import java.util.*;
 
 public class Map 
 {
     private String[][] map;
+    private ArrayList<Tile> tiles = new ArrayList<Tile>();
 
     public Map()
     {
         map = mapTextToArray("map1.txt");
+        arrayToList(map);
     }
 
     public void update()
@@ -18,7 +20,12 @@ public class Map
 
     public void render(Graphics g, Player p)
     {
-        drawArray(map, g, p);
+        //drawArray(map, g, p);
+
+        for(int i = 0; i < tiles.size(); i++)
+        {
+            tiles.get(i).render(g, p);
+        }
     }
 
     public String[][] mapTextToArray(String path)
@@ -55,7 +62,27 @@ public class Map
         }
     }
 
-    public void drawArray(String[][] map, Graphics g, Player p)
+    // public void drawArray(String[][] map, Graphics g, Player p)
+    // {
+    //     for(int i = 0; i < map.length; i++)
+    //     {
+    //         for(int j = 0; j < map[i].length; j++)
+    //         {
+    //             if(map[i][j].equals("g"))
+    //             {
+    //                 g.setColor(Color.GREEN);
+    //                 g.fillRect(Algo.getLocalX(j * 200, p), Algo.getLocalY(i * 200, p), 200, 200);
+    //             } 
+    //             if(map[i][j].equals("w"))
+    //             {
+    //                 g.setColor(Color.CYAN);
+    //                 g.fillRect(Algo.getLocalX(j * 200, p), Algo.getLocalY(i * 200, p), 200, 200);
+    //             } 
+    //         }
+    //     }
+    // }
+
+    public void arrayToList(String[][] map)
     {
         for(int i = 0; i < map.length; i++)
         {
@@ -63,15 +90,23 @@ public class Map
             {
                 if(map[i][j].equals("g"))
                 {
-                    g.setColor(Color.GREEN);
-                    g.fillRect(Algo.getLocalX(j * 200, p), Algo.getLocalY(i * 200, p), 200, 200);
-                } 
+                    tiles.add(new Grass(j, i));
+                }
                 if(map[i][j].equals("w"))
                 {
-                    g.setColor(Color.CYAN);
-                    g.fillRect(Algo.getLocalX(j * 200, p), Algo.getLocalY(i * 200, p), 200, 200);
-                } 
+                    tiles.add(new Water(j, i));
+                }
             }
         }
+    }
+
+    public ArrayList<Obstacle> updateObstacles()
+    {
+        ArrayList<Obstacle> returnList = new ArrayList<Obstacle>();
+        for(int i = 0; i < tiles.size(); i++)
+        {
+            tiles.get(i).addObstacles(returnList);
+        }
+        return returnList;
     }
 }
