@@ -14,8 +14,8 @@ public class BattleRoyaleClient
 
     public void update(Game game)
     {
-        env.update(player);
         player.update(game, env.getObstacles());
+        env.update(player);
     }
 
     public void render(Graphics g)

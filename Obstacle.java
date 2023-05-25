@@ -32,6 +32,8 @@ public class Obstacle
 
     public void render(Graphics g, Player p)
     {
-
+        // debugging
+        // g.setColor(Color.PINK);
+        // g.fillRect((int)getRect().getX(), (int)getRect().getY(), (int)getRect().getWidth(), (int)getRect().getHeight());
     }
 }

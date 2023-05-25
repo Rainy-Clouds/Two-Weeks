@@ -103,10 +103,19 @@ public class Map
     public ArrayList<Obstacle> updateObstacles()
     {
         ArrayList<Obstacle> returnList = new ArrayList<Obstacle>();
+
+        // tiles
         for(int i = 0; i < tiles.size(); i++)
         {
             tiles.get(i).addObstacles(returnList);
         }
+
+        // borders
+        returnList.add(new Obstacle(-50, 0, 50, map.length * 200));
+        returnList.add(new Obstacle(0, -50, map[0].length * 200, 50));
+        returnList.add(new Obstacle(map[0].length * 200, 0, 50, map.length * 200));
+        returnList.add(new Obstacle(0, map.length * 200, map[0].length * 200, 50));
+
         return returnList;
     }
 }
