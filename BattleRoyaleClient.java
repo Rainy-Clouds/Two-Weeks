@@ -25,7 +25,8 @@ public class BattleRoyaleClient
 
     public void render(Graphics g)
     {
-        env.render(g, player);
+        env.renderMap(g, player);
         player.render(g);
+        env.renderElse(g, player);
     }
 }

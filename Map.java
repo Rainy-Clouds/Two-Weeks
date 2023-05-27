@@ -99,6 +99,14 @@ public class Map
                 {
                     tiles.add(new Water(j, i));
                 }
+                if(map[i][j].equals("b"))
+                {
+                    tiles.add(new Bridge(j, i));
+                }
+                if(map[i][j].equals("p"))
+                {
+                    tiles.add(new Path(j, i));
+                }
             }
         }
     }
@@ -107,7 +115,7 @@ public class Map
     {
         ArrayList<Obstacle> returnList = new ArrayList<Obstacle>();
 
-        //tiles.get(0).spawnObstacles("R-100-100-100-100");
+        //tiles.get(1).giveMeHouse();
 
         // tiles
         for(int i = 0; i < tiles.size(); i++)

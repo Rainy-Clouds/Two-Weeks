@@ -32,11 +32,31 @@ public class ServerMap
 
     public String generateObstacles()
     {
-        int num = Algo.randInt(0, 10);
-        if(num > 5)
+        int num = Algo.randInt(1, 35);
+        if(num == 1) // house
         {
-            return "R-100-100-100-100";
+            return "H-0-0-" + Algo.randInt(1, 6);
         }
-        return "N-0-0-0-0";
+        if(num >= 2 && num <= 3) // rock
+        {
+            return "R-" + (Algo.randInt(0, 4) * 25) + "-" + (Algo.randInt(0, 4) * 25) + "-1";
+        }
+        if(num >= 5 && num <= 6) // bush
+        {
+            int subnum = Algo.randInt(1, 2);
+            if(subnum == 1)
+            {
+                return "B-0-" + (Algo.randInt(0, 2) * 50) + "-" + subnum;
+            }
+            else
+            {
+                return "B-" + (Algo.randInt(0, 2) * 50) + "-0-" + subnum;
+            }
+        }
+        if(num >= 8 && num <= 9) // tree
+        {
+            return "T-" + (50 + Algo.randInt(0, 2) * 25) + "-" + (50 + Algo.randInt(0, 2) * 25) + "-1";
+        }
+        return "N-0-0-0"; // nothing
     }
 }

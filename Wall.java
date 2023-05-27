@@ -1,21 +1,15 @@
 import java.awt.*;
 
-public class Rock extends Obstacle
+public class Wall extends Obstacle
 {
-    public Rock(int x, int y, int type)
+    public Wall(int x, int y, int w, int h)
     {
-        // type 1
-        super(x, y, 100, 100);
-
-        if(type == 2)
-        {
-            super.setSize(50, 50);
-        }
+        super(x, y, w, h);
     }
 
     public void render(Graphics g, Player p)
     {
-        g.setColor(Color.GRAY);
+        g.setColor(new Color(191, 121, 59));
         g.fillRect((int)super.getRect().getX(), (int)super.getRect().getY(), (int)super.getRect().getWidth(), (int)super.getRect().getHeight());
     }
 }

@@ -25,6 +25,12 @@ public class Obstacle
         return rect;
     }
 
+    public void setSize(int w, int h)
+    {
+        width = w;
+        height = h;
+    }
+
     public void update(Player p)
     {
         rect.setBounds(Algo.getLocalX(globalX, p), Algo.getLocalY(globalY, p), width, height);

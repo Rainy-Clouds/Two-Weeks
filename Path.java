@@ -1,16 +1,15 @@
 import java.awt.*;
 
-public class Grass extends Tile
+public class Path extends Tile
 {
-    public Grass(int x, int y)
+    public Path(int x, int y)
     {
         super(x, y);
     }
 
     public void render(Graphics g, Player p)
     {
-        g.setColor(Color.GREEN);
+        g.setColor(new Color(235, 188, 113));
         g.fillRect(super.getScreenX(p), super.getScreenY(p), 200, 200);
-        super.render(g, p);
     }
 }

@@ -6,6 +6,7 @@ public class Tile
     private int gridX;
     private int gridY;
     private ArrayList<Obstacle> myObstacles = new ArrayList<Obstacle>();
+    private House house;
     
     public Tile() {}
 
@@ -15,7 +16,13 @@ public class Tile
         gridY = y;
     }
 
-    public void render(Graphics g, Player p) {}
+    public void render(Graphics g, Player p) 
+    {
+        if(house != null)
+        {
+            house.render(g, p);
+        }
+    }
 
     public int getGridX()
     {
@@ -48,13 +55,21 @@ public class Tile
         {
             obs.add(myObstacles.get(i));
         }
+        if(house != null)
+        {
+            ArrayList<Wall> walls = house.getWalls();
+            for(int i = 0; i < walls.size(); i++)
+            {
+                obs.add(walls.get(i));
+            }
+        }
     }
     
     /*
-     * An Obstacle String will start with the letter of the obstacle, x, y, w and h all divided by -
-     * N represents nothing, R represents rocks, T represents trees, B represents a bush
-     * So an obstacle string for a Bush at (40, 40) within the tile and a width of 10 and height of 20 would look like:
-     * B-40-40-10-20
+     * An Obstacle String will start with the letter of the obstacle, x, y, and type (only applicable for some obstacles) all divided by -
+     * N represents nothing, R represents rocks, T represents trees, B represents a bush, H represents a house
+     * So an obstacle string for a Bush at (40, 40) within the tile of type 2 would look like:
+     * B-40-40-2
      */
     public void spawnObstacles(String obsString)
     {
@@ -68,6 +83,19 @@ public class Tile
         if(splitObs[0].equals("R"))
         {
             myObstacles.add(new Rock(gridX * 200 + Integer.valueOf(splitObs[1]), gridY * 200 + Integer.valueOf(splitObs[2]), Integer.valueOf(splitObs[3])));
+        }
+        else if(splitObs[0].equals("T"))
+        {
+            myObstacles.add(new Tree(gridX * 200 + Integer.valueOf(splitObs[1]), gridY * 200 + Integer.valueOf(splitObs[2])));
+        }
+        else if(splitObs[0].equals("B"))
+        {
+            myObstacles.add(new Bush(gridX * 200 + Integer.valueOf(splitObs[1]), gridY * 200 + Integer.valueOf(splitObs[2]), Integer.valueOf(splitObs[3])));
+        }
+        else if(splitObs[0].equals("H"))
+        {
+            //giveMeHouse();
+            house = new House(gridX * 200, gridY * 200, Integer.valueOf(splitObs[3]));
         }
     }
 }
