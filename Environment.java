@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Environment 
 {
@@ -13,11 +14,16 @@ public class Environment
         {
             tags[i] = new Nametag();
         }
+    }
 
+    public void loadTiles(String[] tileData)
+    {
+        //System.out.println(Arrays.toString(tileData));
+        map.loadTiles(tileData);
         obs = map.updateObstacles();
 
-        obs.add(new Rock(200, 200, 100));
-        obs.add(new Rock(400, 400, 100));
+        // obs.add(new Rock(200, 200, 100));
+        // obs.add(new Rock(400, 400, 100));
     }
 
     public ArrayList<Obstacle> getObstacles()
@@ -39,7 +45,10 @@ public class Environment
         g.setColor(Color.BLUE);
         for(int i = 0; i < obs.size(); i++)
         {
-            obs.get(i).render(g, player);
+            if(obs.get(i).getScreenX(player) >= -200 && obs.get(i).getScreenX(player) <= 1000 && obs.get(i).getScreenY(player) >= -200 && obs.get(i).getScreenY(player) <= 800)
+            {
+                obs.get(i).render(g, player);
+            }
         }
         for(int i = 0; i < Data.playerX.size(); i++)
         {

@@ -12,6 +12,11 @@ public class BattleRoyaleClient
         return player;
     }
 
+    public Environment getEnvironment()
+    {
+        return env;
+    }
+
     public void update(Game game)
     {
         player.update(game, env.getObstacles());

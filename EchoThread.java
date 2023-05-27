@@ -46,7 +46,14 @@ public class EchoThread extends Thread
                     if(game.getState().equals("battle royale menu") && parsed[0].equals("A"))
                     {
                         Data.names.set(playerNum, parsed[1]);
-                        printer.println(message + " " + playerNum);
+                        if(message != null && message.equals("start"))
+                        {
+                            printer.println(message + "~" + playerNum + game.getServer().getMap().getObstacleString());
+                        }
+                        else
+                        {
+                            printer.println(message + "~" + playerNum);
+                        }
                         if(message != null)
                         {
                             message = null;

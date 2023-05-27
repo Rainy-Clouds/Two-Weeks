@@ -24,11 +24,14 @@ public class Map
 
         for(int i = 0; i < tiles.size(); i++)
         {
-            tiles.get(i).render(g, p);
+            if(tiles.get(i).getScreenX(p) >= -200 && tiles.get(i).getScreenX(p) <= 1000 && tiles.get(i).getScreenY(p) >= -200 && tiles.get(i).getScreenY(p) <= 800)
+            {
+                tiles.get(i).render(g, p);
+            }
         }
     }
 
-    public String[][] mapTextToArray(String path)
+    public static String[][] mapTextToArray(String path)
     {
         try
         {
@@ -104,6 +107,8 @@ public class Map
     {
         ArrayList<Obstacle> returnList = new ArrayList<Obstacle>();
 
+        //tiles.get(0).spawnObstacles("R-100-100-100-100");
+
         // tiles
         for(int i = 0; i < tiles.size(); i++)
         {
@@ -117,5 +122,27 @@ public class Map
         returnList.add(new Obstacle(0, map.length * 200, map[0].length * 200, 50));
 
         return returnList;
+    }
+
+    public void loadTiles(String[] tileData)
+    {
+        for(String str : tileData)
+        {
+            String[] parsed = str.split(" ");
+            //System.out.println(Arrays.toString(parsed));
+            getTileAt(Integer.valueOf(parsed[0]), Integer.valueOf(parsed[1])).spawnObstacles(parsed[2]);
+        }
+    }
+
+    public Tile getTileAt(int gridx, int gridy) // HIT THE GRIDDY
+    {
+        for(int i = 0; i < tiles.size(); i++)
+        {
+            if(tiles.get(i).getGridX() == gridx && tiles.get(i).getGridY() == gridy)
+            {
+                return tiles.get(i);
+            }
+        }
+        return null;
     }
 }

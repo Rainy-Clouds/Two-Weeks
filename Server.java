@@ -6,6 +6,7 @@ public class Server implements Runnable
     private boolean running = false;
     private Game game;
     private ArrayList<EchoThread> echoes = new ArrayList<EchoThread>();
+    private ServerMap map;
     // private int[] ports = {125, 128, 211, 309, 417, 617, 906, 1117};
     // private boolean[] activePorts = new boolean[8];
 
@@ -45,6 +46,8 @@ public class Server implements Runnable
 
     public void clientsStart()
     {
+        map = new ServerMap("map1.txt");
+
         for(int i = 0; i < echoes.size(); i++)
         {
             echoes.get(i).relayMessage("start");
@@ -57,6 +60,11 @@ public class Server implements Runnable
         }
 
         Transition.switchState("battle royale");
+    }
+
+    public ServerMap getMap()
+    {
+        return map;
     }
 
     public void run()

@@ -73,11 +73,13 @@ public class Client implements Runnable
                     dout.println("A " + name);
 
                     String str = reader.readLine();
-                    String[] parsed = str.split(" ");
+                    String[] parsed = str.split("~");
+                    //System.out.println(Arrays.toString(parsed));
                     if(parsed[0].equals("start"))
                     {
                         playerNum = Integer.valueOf(parsed[1]);
                         Transition.switchState("battle royale");
+                        game.getBRClient().getEnvironment().loadTiles(Arrays.copyOfRange(parsed, 2, parsed.length));
                     }
                 }
                 if(game.getState().equals("battle royale"))

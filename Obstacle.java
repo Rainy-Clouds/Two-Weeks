@@ -30,6 +30,16 @@ public class Obstacle
         rect.setBounds(Algo.getLocalX(globalX, p), Algo.getLocalY(globalY, p), width, height);
     }
 
+    public int getScreenX(Player p)
+    {
+        return Algo.getLocalX(globalX, p);
+    }
+
+    public int getScreenY(Player p)
+    {
+        return Algo.getLocalY(globalY, p);
+    }
+
     public void render(Graphics g, Player p)
     {
         // debugging
