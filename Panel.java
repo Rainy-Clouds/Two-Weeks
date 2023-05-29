@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Panel extends JPanel implements Runnable, MouseListener, MouseMotionListener, KeyListener
+public class Panel extends JPanel implements Runnable, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener
 {
     private static final int width = 800;
     private static final int height = 600; 
@@ -18,7 +18,8 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
     public static int mousex, mousey;
     public static boolean mouseDown;
     public static TextField currentField;
-    public static boolean[] keyMap = new boolean[4]; // up down left right
+    public static boolean[] keyMap = new boolean[4]; // w s a d
+    public static boolean[] numMap = new boolean[10]; // u have to guess for this one LMAOOOOO
 
     public Panel()
     {
@@ -31,6 +32,7 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.addKeyListener(this);
+        this.addMouseWheelListener(this);
 
         running = true;
         thread = new Thread(this);
@@ -138,41 +140,59 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Up"))
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("W"))
         {
             keyMap[0] = true;
         }
-        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Down"))
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("S"))
         {
             keyMap[1] = true;
         }
-        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Left"))
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("A"))
         {
             keyMap[2] = true;
         }
-        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Right"))
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("D"))
         {
             keyMap[3] = true;
         }
+        
+        try
+        {
+            numMap[Integer.valueOf(KeyEvent.getKeyText(e.getKeyCode()))] = true;
+        }
+        catch(Exception ex) {}
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Up"))
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("W"))
         {
             keyMap[0] = false;
         }
-        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Down"))
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("S"))
         {
             keyMap[1] = false;
         }
-        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Left"))
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("A"))
         {
             keyMap[2] = false;
         }
-        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Right"))
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("D"))
         {
             keyMap[3] = false;
         }
+
+        try
+        {
+            numMap[Integer.valueOf(KeyEvent.getKeyText(e.getKeyCode()))] = false;
+        }
+        catch(Exception ex) {}
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) 
+    {
+        game.wheelAction(e.getWheelRotation());
     }
 }

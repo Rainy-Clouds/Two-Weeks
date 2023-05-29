@@ -41,6 +41,20 @@ public class Converter
         return str;
     }
 
+    public static String doubleArrLToString(ArrayList<Double> arr)
+    {
+        String str = "";
+        if(arr.size() > 0)
+        {
+            for(int i = 0; i < arr.size() - 1; i++)
+            {
+                str += arr.get(i) + " ";
+            }
+            str += arr.get(arr.size() - 1);
+        }
+        return str;
+    }
+
     public static ArrayList<Integer> stringToIntArrL(String str)
     {
         String[] strArr = str.split(" ");
@@ -48,6 +62,17 @@ public class Converter
         for(int i = 0; i < strArr.length; i++)
         {
             arr.add(Integer.valueOf(strArr[i]));
+        }
+        return arr;
+    }
+
+    public static ArrayList<Double> stringToDoubleArrL(String str)
+    {
+        String[] strArr = str.split(" ");
+        ArrayList<Double> arr = new ArrayList<Double>();
+        for(int i = 0; i < strArr.length; i++)
+        {
+            arr.add(Double.valueOf(strArr[i]));
         }
         return arr;
     }

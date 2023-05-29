@@ -1,11 +1,17 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 
 public class Player 
 {
     private int x, y, width, height;
+    private double angle;
     private Nametag tag = new Nametag();
     private Rectangle rect, rectL, rectR, rectT, rectB;
+    private BufferedImage img;
+    private Inventory inv = new Inventory(4);
     
     public Player(int x, int y, int w, int h)
     {
@@ -19,6 +25,15 @@ public class Player
         rectR = new Rectangle((int) (rect.getX() + rect.getWidth()), (int) rect.getY(), 1, height);
         rectT = new Rectangle((int) rect.getX(), (int) rect.getY() - 1, width, 1);
         rectB = new Rectangle((int) rect.getX(), (int) (rect.getY() + rect.getHeight()), width, 1);
+
+        try
+        {
+            img = ImageIO.read(new File("assets\\betaplayer.png"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace(System.out);
+        }
     }
 
     public int getX()
@@ -29,6 +44,16 @@ public class Player
     public int getY()
     {
         return y;
+    }
+
+    public double getAng()
+    {
+        return angle;
+    }
+
+    public Inventory getInventory()
+    {
+        return inv;
     }
 
     public int getScreenX()
@@ -45,6 +70,32 @@ public class Player
     {
         keyActions(obs);
         tag.setName(game.getClient().getName());
+
+        inv.update();
+
+        angle = Math.toDegrees(Math.atan(((double)Panel.mousex - 400) / (-1 * ((double)Panel.mousey - 300))));
+        if((double)Panel.mousey - 300 > 0)
+        {
+            angle += 180;
+        }
+        if(Math.abs(angle) == 90)
+        {
+            angle *= -1;
+        }
+        // try
+        // {
+        //     angle = Math.toDegrees(Math.atan(((double)Panel.mousex - 400) / (-1 * ((double)Panel.mousey - 300))));
+        //     if((double)Panel.mousey - 300 > 0)
+        //     {
+        //         angle += 180;
+        //     }
+        // }
+        // catch(Exception e)
+        // {
+        //     System.out.println("divide by zero");
+        //     angle = -90;
+        // }
+        //System.out.println(angle);
         //System.out.println(x + ", " + y);
     }
 
@@ -89,7 +140,8 @@ public class Player
     {
         //tag.render(g, 400, 250);
         g.setColor(Color.RED);
-        g.fillRect(400 - width / 2, 300 - height / 2, width, height);
+        //g.fillRect(400 - width / 2, 300 - height / 2, width, height);
+        g.drawImage(Algo.rotateImage(img, angle), 400 - width / 2, 300 - height / 2, null);
         // g.setColor(Color.PINK);
         // renderRect(rectB, g);
         // renderRect(rectL, g);

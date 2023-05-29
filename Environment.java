@@ -1,18 +1,31 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 public class Environment 
 {
     private Nametag[] tags = new Nametag[8];
     private Map map = new Map();
     private ArrayList<Obstacle> obs = new ArrayList<Obstacle>();
+    private BufferedImage otherimg;
     
     public Environment()
     {
         for(int i = 0; i < tags.length; i++)
         {
             tags[i] = new Nametag();
+        }
+
+        try
+        {
+            otherimg = ImageIO.read(new File("assets\\betaother.png"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace(System.out);
         }
     }
 
@@ -59,8 +72,9 @@ public class Environment
         {
             if(i != Client.playerNum)
             {    
-                g.setColor(Color.BLUE);
-                g.fillRect(getLocalX(i, player), getLocalY(i, player), BattleRoyaleClient.playerSize, BattleRoyaleClient.playerSize);
+                //g.setColor(Color.BLUE);
+                //g.fillRect(getLocalX(i, player), getLocalY(i, player), BattleRoyaleClient.playerSize, BattleRoyaleClient.playerSize);
+                g.drawImage(Algo.rotateImage(otherimg, Data.playerRot.get(i)), getLocalX(i, player), getLocalY(i, player), null);
                 tags[i].setName(Data.names.get(i));
                 tags[i].render(g, getLocalX(i, player) + BattleRoyaleClient.playerSize / 2, getLocalY(i, player) - 30);
             }

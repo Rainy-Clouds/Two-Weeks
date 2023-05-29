@@ -120,6 +120,14 @@ public class Game
         }
     }
 
+    public void wheelAction(int rot)
+    {
+        if(role.equals("Client") && state.equals("battle royale"))
+        {
+            brc.getPlayer().getInventory().scroll(rot);;
+        }
+    }
+
     public BRMenuManager getBRMenu()
     {
         return brmenu;

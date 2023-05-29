@@ -28,5 +28,6 @@ public class BattleRoyaleClient
         env.renderMap(g, player);
         player.render(g);
         env.renderElse(g, player);
+        player.getInventory().render(g);
     }
 }
