@@ -141,7 +141,11 @@ public class Player
         //tag.render(g, 400, 250);
         g.setColor(Color.RED);
         //g.fillRect(400 - width / 2, 300 - height / 2, width, height);
-        g.drawImage(Algo.rotateImage(img, angle), 400 - width / 2, 300 - height / 2, null);
+        if(inv.currentItem() != null)
+        {
+            g.drawImage(Algo.rotateImage(inv.currentItem().getHeld(), angle), 400 - 60 - 25, 300 - 60 - 25, null);
+        }
+        g.drawImage(Algo.rotateImage(img, angle), 400 - width / 2 - 25, 300 - height / 2 - 25, null);
         // g.setColor(Color.PINK);
         // renderRect(rectB, g);
         // renderRect(rectL, g);

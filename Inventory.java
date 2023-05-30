@@ -6,10 +6,13 @@ public class Inventory
     private int boxSize = 70;
     private int spacing = 15;
     private int activeSpot = 1;
+    private Item[] items;
 
     public Inventory(int sp)
     {
         spots = sp;
+        items = new Item[sp];
+        items[0] = new Pickaxe();
     }
 
     public void update()
@@ -36,6 +39,12 @@ public class Inventory
                 g.setColor(new Color(173, 173, 173, 150));
             }
             g.fillRect((400 - ((boxSize * spots + spacing * (spots - 1)) / 2)) + ((boxSize + spacing) * i), 600 - (boxSize + spacing), boxSize, boxSize);
+
+            if(items[i] != null)
+            {
+                items[i].renderIcon(g, (400 - ((boxSize * spots + spacing * (spots - 1)) / 2)) + ((boxSize + spacing) * i), 600 - (boxSize + spacing));
+            }
+
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.PLAIN, 16));
             g.drawString(String.valueOf(i + 1), (400 - ((boxSize * spots + spacing * (spots - 1)) / 2)) + ((boxSize + spacing) * i) + 3, 600 - (boxSize + spacing) + 16);
@@ -61,5 +70,10 @@ public class Inventory
         {
             activeSpot = 1;
         }
+    }
+
+    public Item currentItem()
+    {
+        return items[activeSpot - 1];
     }
 }

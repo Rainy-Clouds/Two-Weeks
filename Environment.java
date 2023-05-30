@@ -74,7 +74,7 @@ public class Environment
             {    
                 //g.setColor(Color.BLUE);
                 //g.fillRect(getLocalX(i, player), getLocalY(i, player), BattleRoyaleClient.playerSize, BattleRoyaleClient.playerSize);
-                g.drawImage(Algo.rotateImage(otherimg, Data.playerRot.get(i)), getLocalX(i, player), getLocalY(i, player), null);
+                g.drawImage(Algo.rotateImage(otherimg, Data.playerRot.get(i)), getLocalX(i, player) - 25, getLocalY(i, player) - 25, null);
                 tags[i].setName(Data.names.get(i));
                 tags[i].render(g, getLocalX(i, player) + BattleRoyaleClient.playerSize / 2, getLocalY(i, player) - 30);
             }
