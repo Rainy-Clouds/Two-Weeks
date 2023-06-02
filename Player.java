@@ -11,7 +11,10 @@ public class Player
     private Nametag tag = new Nametag();
     private Rectangle rect, rectL, rectR, rectT, rectB;
     private BufferedImage img;
-    private Inventory inv = new Inventory(4);
+
+    private Pickaxe pick = new Pickaxe();
+    private Inventory inv = new Inventory(4, pick);
+    private String itemUpdate;
     
     public Player(int x, int y, int w, int h)
     {
@@ -56,6 +59,13 @@ public class Player
         return inv;
     }
 
+    public String itemUpdate()
+    {
+        String returnStr = itemUpdate;
+        itemUpdate = null;
+        return returnStr;
+    }
+
     public int getScreenX()
     {
         return (x + width / 2) - 400;
@@ -71,7 +81,8 @@ public class Player
         keyActions(obs);
         tag.setName(game.getClient().getName());
 
-        inv.update();
+        inv.update(this);
+        pick.update(this);
 
         angle = Math.toDegrees(Math.atan(((double)Panel.mousex - 400) / (-1 * ((double)Panel.mousey - 300))));
         if((double)Panel.mousey - 300 > 0)
@@ -97,6 +108,49 @@ public class Player
         // }
         //System.out.println(angle);
         //System.out.println(x + ", " + y);
+
+        for(int i = 0; i < Data.droppedItems.size(); i++)
+        {
+            if(Data.droppedItems.get(i).touchingRect(rect) && Panel.keyMap[5])
+            {
+                if(inv.pickUp(Data.droppedItems.get(i)) == 0)
+                {
+                    if(itemUpdate == null)
+                    {
+                        itemUpdate = "remove-" + Data.droppedItems.get(i).getID();
+                    }
+                    else
+                    {
+                        itemUpdate += "-remove-" + Data.droppedItems.get(i).getID();
+                    }
+                    Data.droppedItems.get(i).pickedUp();
+                    Data.pickedUpItems.add(Data.droppedItems.get(i));
+                    Data.droppedItems.remove(i);
+                }
+            }
+        }
+
+        // this code sucks man what am I doing with my life
+        if(Panel.keyMap[4])
+        {
+            Item droppedItem = inv.dropItem(this);
+            if(droppedItem != null)
+            {
+                if(itemUpdate == null)
+                {
+                    itemUpdate = "add-" + droppedItem.getType() + "&" + droppedItem.getID() + "&" + droppedItem.getX() + "&" + droppedItem.getY();
+                }
+                else
+                {
+                    itemUpdate += "-add-" + droppedItem.getType() + "&" + droppedItem.getID() + "&" + droppedItem.getX() + "&" + droppedItem.getY();
+                }
+
+                if(Data.getItemIndex(droppedItem.getID()) != -1)
+                {
+                    Data.pickedUpItems.remove(Data.getItemIndex(droppedItem.getID()));
+                }
+            }
+        }
     }
 
     public void keyActions(ArrayList<Obstacle> obs)
@@ -138,6 +192,7 @@ public class Player
 
     public void render(Graphics g)
     {
+        pick.render(g, this);
         //tag.render(g, 400, 250);
         g.setColor(Color.RED);
         //g.fillRect(400 - width / 2, 300 - height / 2, width, height);

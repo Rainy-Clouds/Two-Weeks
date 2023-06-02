@@ -52,11 +52,21 @@ public class Environment
         {
             obs.get(i).update(player);
         }
+
+        for(int i = 0; i < Data.droppedItems.size(); i++)
+        {
+            Data.droppedItems.get(i).update(player);
+        }
     }
 
     public void renderMap(Graphics g, Player player)
     {
         map.render(g, player);
+
+        for(int i = 0; i < Data.droppedItems.size(); i++)
+        {
+            Data.droppedItems.get(i).render(g, player);
+        }
     }
 
     public void renderElse(Graphics g, Player player)

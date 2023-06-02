@@ -8,14 +8,14 @@ public class Inventory
     private int activeSpot = 1;
     private Item[] items;
 
-    public Inventory(int sp)
+    public Inventory(int sp, Pickaxe pick)
     {
         spots = sp;
         items = new Item[sp];
-        items[0] = new Pickaxe();
+        items[0] = pick;
     }
 
-    public void update()
+    public void update(Player p)
     {
         for(int i = 1; i <= spots; i++)
         {
@@ -24,6 +24,27 @@ public class Inventory
                 activeSpot = i;
             }
         }
+
+        // if(Panel.keyMap[4] && items[activeSpot - 1] != null)
+        // {
+        //     if(items[activeSpot - 1].canDrop())
+        //     {
+        //         items[activeSpot - 1].drop(p.getX(), p.getY());
+        //         items[activeSpot - 1] = null;
+        //     }
+        // }
+    }
+
+    public Item dropItem(Player p)
+    {
+        if(items[activeSpot - 1] != null && items[activeSpot - 1].canDrop())
+        {
+            Item returnItem = items[activeSpot - 1];
+            items[activeSpot - 1].drop(p.getX(), p.getY());
+            items[activeSpot - 1] = null;
+            return returnItem;
+        }
+        return null;
     }
 
     public void render(Graphics g)
@@ -75,5 +96,42 @@ public class Inventory
     public Item currentItem()
     {
         return items[activeSpot - 1];
+    }
+
+    public boolean isFull()
+    {
+        for(int i = 0; i < items.length; i++)
+        {
+            if(items[i] == null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // returns 1 if the inventory is full, 0 otherwise
+    public int pickUp(Item item)
+    {
+        if(!isFull())
+        {
+            if(items[activeSpot - 1] == null)
+            {
+                items[activeSpot - 1] = item;
+            }
+            else
+            {
+                for(int i = 0; i < items.length; i++)
+                {
+                    if(items[i] == null)
+                    {
+                        items[i] = item;
+                        break;
+                    }
+                }
+            }
+            return 0;
+        }
+        return 1;
     }
 }

@@ -1,7 +1,10 @@
+import java.util.*;
+
 public class ServerMap 
 {
     private String[][] mapData;
     private String obsString;
+    private ArrayList<String> usedIDs = new ArrayList<String>();
 
     public ServerMap(String path)
     {
@@ -23,11 +26,22 @@ public class ServerMap
             {
                 if(mapData[i][j].equals("g"))
                 {
-                    base += "~" + j + " " + i + " " + generateObstacles() + " " + "null";
+                    base += "~" + j + " " + i + " " + generateObstacles() + " " + generateItems();
                 }
             }
         }
         return base;
+    }
+
+    public String generateItems()
+    {
+        String id = "" + Algo.randInt(1, 9) + Algo.randInt(1, 9) + Algo.randInt(1, 9);
+        while(usedIDs.contains(id))
+        {
+            id = "" + Algo.randInt(1, 9) + Algo.randInt(1, 9) + Algo.randInt(1, 9);
+        }
+        usedIDs.add(id);
+        return "jug-0-0-" + id;
     }
 
     public String generateObstacles()

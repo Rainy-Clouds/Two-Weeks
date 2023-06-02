@@ -18,7 +18,7 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
     public static int mousex, mousey;
     public static boolean mouseDown;
     public static TextField currentField;
-    public static boolean[] keyMap = new boolean[4]; // w s a d
+    public static boolean[] keyMap = new boolean[6]; // w s a d q e
     public static boolean[] numMap = new boolean[10]; // u have to guess for this one LMAOOOOO
 
     public Panel()
@@ -156,6 +156,14 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
         {
             keyMap[3] = true;
         }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Q"))
+        {
+            keyMap[4] = true;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("E"))
+        {
+            keyMap[5] = true;
+        }
         
         try
         {
@@ -181,6 +189,14 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
         if(KeyEvent.getKeyText(e.getKeyCode()).equals("D"))
         {
             keyMap[3] = false;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Q"))
+        {
+            keyMap[4] = false;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("E"))
+        {
+            keyMap[5] = false;
         }
 
         try

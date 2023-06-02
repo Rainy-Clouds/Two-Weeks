@@ -139,6 +139,16 @@ public class Map
             String[] parsed = str.split(" ");
             //System.out.println(Arrays.toString(parsed));
             getTileAt(Integer.valueOf(parsed[0]), Integer.valueOf(parsed[1])).spawnObstacles(parsed[2]);
+            spawnItems(Integer.valueOf(parsed[0]), Integer.valueOf(parsed[1]), parsed[3]);
+        }
+    }
+
+    public void spawnItems(int gridX, int gridY, String str)
+    {
+        String[] parsed = str.split("-");
+        if(parsed[0].equals("jug"))
+        {
+            Data.droppedItems.add(new Jug(gridX * 200 + Integer.valueOf(parsed[1]), gridY * 200 + Integer.valueOf(parsed[2]), parsed[3]));
         }
     }
 
