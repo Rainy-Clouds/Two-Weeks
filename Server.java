@@ -59,6 +59,7 @@ public class Server implements Runnable
             Data.playerX.add(null);
             Data.playerY.add(null);
             Data.playerRot.add(null);
+            Data.playerHeld.add(null);
         }
 
         Transition.switchState("battle royale");

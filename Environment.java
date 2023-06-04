@@ -11,6 +11,9 @@ public class Environment
     private Map map = new Map();
     private ArrayList<Obstacle> obs = new ArrayList<Obstacle>();
     private BufferedImage otherimg;
+    private String[] itemNames = {"pickaxe", "jug"};
+    private BufferedImage[] helds = new BufferedImage[itemNames.length];
+    private BufferedImage[] heldsAni = new BufferedImage[itemNames.length];
     
     public Environment()
     {
@@ -22,6 +25,12 @@ public class Environment
         try
         {
             otherimg = ImageIO.read(new File("assets\\betaother.png"));
+
+            helds[0] = ImageIO.read(new File("assets\\betaheld.png"));
+            helds[1] = ImageIO.read(new File("assets\\betaheld2.png"));
+
+            heldsAni[0] = ImageIO.read(new File("assets\\betaheldanim.png"));
+            heldsAni[1] = ImageIO.read(new File("assets\\betaheld2.png"));
         }
         catch(Exception e)
         {
@@ -84,10 +93,32 @@ public class Environment
             {    
                 //g.setColor(Color.BLUE);
                 //g.fillRect(getLocalX(i, player), getLocalY(i, player), BattleRoyaleClient.playerSize, BattleRoyaleClient.playerSize);
+                drawHeld(g, player, i, Data.playerHeld.get(i));
                 g.drawImage(Algo.rotateImage(otherimg, Data.playerRot.get(i)), getLocalX(i, player) - 25, getLocalY(i, player) - 25, null);
                 tags[i].setName(Data.names.get(i));
                 tags[i].render(g, getLocalX(i, player) + BattleRoyaleClient.playerSize / 2, getLocalY(i, player) - 30);
             }
+        }
+    }
+
+    public void drawHeld(Graphics g, Player p, int ind, String name)
+    {
+        if(!name.equals("null"))
+        {
+            String[] parsed = name.split("-");
+            //System.out.println(Arrays.toString(parsed));
+            try
+            {
+                if(parsed[1].equals("A"))
+                {
+                    g.drawImage(Algo.rotateImage(heldsAni[Arrays.asList(itemNames).indexOf(parsed[0])], Data.playerRot.get(ind)), getLocalX(ind, p) - 25 - 30, getLocalY(ind, p) - 25 - 30, null);
+                }
+                else
+                {
+                    g.drawImage(Algo.rotateImage(helds[Arrays.asList(itemNames).indexOf(parsed[0])], Data.playerRot.get(ind)), getLocalX(ind, p) - 25 - 30, getLocalY(ind, p) - 25 - 30, null);
+                }
+            }
+            catch(Exception e) {}
         }
     }
 

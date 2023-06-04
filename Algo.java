@@ -45,4 +45,20 @@ public class Algo
         AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         return rotateOp.filter(image, rotatedImage);
     }
+
+    public static double standardizeDiagonalAngle(double angle)
+    {
+        while(!(angle >= 45 && angle < 405))
+        {
+            if(angle < 45)
+            {
+                angle += 360;
+            }
+            else
+            {
+                angle -= 360;
+            }
+        }
+        return angle;
+    }
 }

@@ -4,6 +4,7 @@ public class Inventory
 {
     private int spots;
     private int boxSize = 70;
+    private int barWidth = 7;
     private int spacing = 15;
     private int activeSpot = 1;
     private Item[] items;
@@ -64,6 +65,12 @@ public class Inventory
             if(items[i] != null)
             {
                 items[i].renderIcon(g, (400 - ((boxSize * spots + spacing * (spots - 1)) / 2)) + ((boxSize + spacing) * i), 600 - (boxSize + spacing));
+                if(items[i].getCooldown() > 0 && !items[i].canAct())
+                {
+                    //System.out.println((int) (70 * (items[i].getCooltime() / (double) items[i].getCooldown())));
+                    g.setColor(Color.RED);
+                    g.fillRect((400 - ((boxSize * spots + spacing * (spots - 1)) / 2)) + ((boxSize + spacing) * i), 600 - (barWidth + spacing), (int) (70 * (items[i].getCooltime() / (double) items[i].getCooldown())), barWidth);
+                }
             }
 
             g.setColor(Color.WHITE);

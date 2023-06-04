@@ -2,28 +2,34 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+import java.time.*;
 
 public class Item 
 {
-    private BufferedImage icon, held, drop;
-    private boolean dropped, canDrop;
-    private int globalX, globalY;
+    private BufferedImage icon, held, drop, anim;
+    private boolean dropped, canDrop, animating;
+    private int globalX, globalY, delay, cooldown;
     private Rectangle dropRect = new Rectangle(0, 0, 0, 0);
     private String id;
+    private Instant actionStart = Instant.now();
 
-    public Item(boolean droppable, String id)
+    // cooldown in milliseconds
+    public Item(boolean droppable, String id, int cooldown)
     {
         canDrop = droppable;
         this.id = id;
+        this.cooldown = cooldown;
     }
 
-    public Item(int x, int y, String id)
+    // cooldown in milliseconds
+    public Item(int x, int y, String id, int cooldown)
     {
         canDrop = true;
         dropped = true;
         globalX = x;
         globalY = y;
         this.id = id;
+        this.cooldown = cooldown;
     }
 
     public String getID()
@@ -39,6 +45,21 @@ public class Item
     public int getY()
     {
         return globalY;
+    }
+
+    public int getCooldown()
+    {
+        return cooldown;
+    }
+
+    public boolean animating()
+    {
+        return animating;
+    }
+
+    public long getCooltime()
+    {
+        return Duration.between(actionStart, Instant.now()).toMillis();
     }
 
     public void setIcon(String path)
@@ -77,6 +98,18 @@ public class Item
         }
     }
 
+    public void setAnim(String path)
+    {
+        try
+        {
+            anim = ImageIO.read(new File("assets\\" + path));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace(System.out);
+        }
+    }
+
     public void drop(int x, int y)
     {
         if(canDrop)
@@ -92,9 +125,18 @@ public class Item
         dropped = false;
     }
 
+    public void animate(int frames)
+    {
+        delay = frames;
+        animating = true;
+    }
+
     public void renderIcon(Graphics g, int x, int y)
     {
         g.drawImage(icon, x, y, null);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.PLAIN, 16));
+        g.drawString(id, x + 30, y + 30); // play testing
     }
 
     public void update(Player p)
@@ -102,6 +144,16 @@ public class Item
         if(dropped)
         {
             dropRect.setBounds(Algo.getLocalX(globalX, p), Algo.getLocalY(globalY, p), drop.getWidth(), drop.getHeight());
+        }
+
+        if(animating)
+        {
+            delay--;
+        }
+
+        if(delay <= 0)
+        {
+            animating = false;
         }
     }
 
@@ -113,6 +165,16 @@ public class Item
         }
     }
 
+    public void action() 
+    {
+        actionStart = Instant.now();
+    }
+
+    public boolean canAct()
+    {
+        return Duration.between(actionStart, Instant.now()).toMillis() > cooldown;
+    }
+
     public boolean touchingRect(Rectangle other)
     {
         return dropped && dropRect.intersects(other);
@@ -120,6 +182,10 @@ public class Item
 
     public BufferedImage getHeld()
     {
+        if(animating)
+        {
+            return anim;
+        }
         return held;
     }
 

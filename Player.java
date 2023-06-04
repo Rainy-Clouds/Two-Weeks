@@ -11,10 +11,13 @@ public class Player
     private Nametag tag = new Nametag();
     private Rectangle rect, rectL, rectR, rectT, rectB;
     private BufferedImage img;
+    private boolean pickedAlready, acted;
 
     private Pickaxe pick = new Pickaxe();
     private Inventory inv = new Inventory(4, pick);
     private String itemUpdate;
+
+    private Rectangle hitbox = new Rectangle(0, 0, 0, 0); // purely for testing
     
     public Player(int x, int y, int w, int h)
     {
@@ -66,6 +69,19 @@ public class Player
         return returnStr;
     }
 
+    public String getActiveItem()
+    {
+        if(inv.currentItem() == null)
+        {
+            return "null";
+        }
+        if(inv.currentItem().animating())
+        {
+            return inv.currentItem().getType() + "-A";
+        }
+        return inv.currentItem().getType() + "-N";
+    }
+
     public int getScreenX()
     {
         return (x + width / 2) - 400;
@@ -83,6 +99,8 @@ public class Player
 
         inv.update(this);
         pick.update(this);
+
+        fixateDaggerHitbox(hitbox, 400, 300, angle);
 
         angle = Math.toDegrees(Math.atan(((double)Panel.mousex - 400) / (-1 * ((double)Panel.mousey - 300))));
         if((double)Panel.mousey - 300 > 0)
@@ -109,9 +127,28 @@ public class Player
         //System.out.println(angle);
         //System.out.println(x + ", " + y);
 
+        if(!Panel.mouseDown)
+        {
+            acted = false;
+        }
+
+        if(inv.currentItem() != null)
+        {
+            if(Panel.mouseDown && !acted)
+            {
+                inv.currentItem().action();
+                acted = true;
+            }
+        }
+
+        if(!Panel.keyMap[5])
+        {
+            pickedAlready = false;
+        }
+
         for(int i = 0; i < Data.droppedItems.size(); i++)
         {
-            if(Data.droppedItems.get(i).touchingRect(rect) && Panel.keyMap[5])
+            if(Data.droppedItems.get(i).touchingRect(rect) && Panel.keyMap[5] && !pickedAlready)
             {
                 if(inv.pickUp(Data.droppedItems.get(i)) == 0)
                 {
@@ -126,6 +163,7 @@ public class Player
                     Data.droppedItems.get(i).pickedUp();
                     Data.pickedUpItems.add(Data.droppedItems.get(i));
                     Data.droppedItems.remove(i);
+                    pickedAlready = true;
                 }
             }
         }
@@ -147,7 +185,11 @@ public class Player
 
                 if(Data.getItemIndex(droppedItem.getID()) != -1)
                 {
-                    Data.pickedUpItems.remove(Data.getItemIndex(droppedItem.getID()));
+                    try
+                    {
+                        Data.pickedUpItems.remove(Data.getItemIndex(droppedItem.getID()));
+                    }
+                    catch(Exception e) { System.out.println("Street street ppl"); }
                 }
             }
         }
@@ -185,13 +227,42 @@ public class Player
         return false;
     }
 
+    public void fixateDaggerHitbox(Rectangle r, int x, int y, double angle)
+    {
+        double sAngle = Algo.standardizeDiagonalAngle(angle);
+        if(sAngle >= 45 && sAngle <= 135)
+        {
+            r.setBounds(x - 10, y + (int) (-60 + (((sAngle - 45) / 90) * 50)), 70, 70); 
+        }
+        else if(sAngle >= 135 && sAngle <= 225)
+        {
+            r.setBounds(x - (int) (10 + (((sAngle - 135) / 90) * 50)), y - 10, 70, 70); 
+        }
+        else if(sAngle >= 225 && sAngle <= 315)
+        {
+            r.setBounds(x - 60, y - (int) (10 + (((sAngle - 225) / 90) * 50)), 70, 70); 
+        }
+        else
+        {
+            r.setBounds(x + (int) (-60 + (((sAngle - 315) / 90) * 50)), y - 60, 70, 70); 
+        }
+        
+        // at angle 45: x - 10, y - 60, 70, 70
+        // at angle 135: x - 10, y - 10, 70, 70
+        // at angle 225: x - 60, y - 10, 70, 70
+        // at angle 315: x - 60, y - 60, 70, 70
+    }
+
     public void renderRect(Rectangle r, Graphics g)
     {
+        g.setColor(Color.PINK);
         g.fillRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
     }
 
     public void render(Graphics g)
     {
+        renderRect(hitbox, g);
+
         pick.render(g, this);
         //tag.render(g, 400, 250);
         g.setColor(Color.RED);

@@ -88,7 +88,8 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        // Nothing
+        mousex = e.getX();
+        mousey = e.getY();
     }
 
     @Override
@@ -209,6 +210,9 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) 
     {
-        game.wheelAction(e.getWheelRotation());
+        if(game.getRole() != null)
+        {
+            game.wheelAction(e.getWheelRotation());
+        }
     }
 }

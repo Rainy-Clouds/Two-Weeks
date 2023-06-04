@@ -82,8 +82,9 @@ public class EchoThread extends Thread
                         {
                             game.getServer().updateItems(parsed[4]);
                         }
+                        Data.playerHeld.set(playerNum, parsed[5]);
                         //System.out.println(Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY));
-                        printer.println(Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates);
+                        printer.println(Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld));
                         if(itemUpdates != null)
                         {
                             itemUpdates = null;

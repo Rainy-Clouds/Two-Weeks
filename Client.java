@@ -85,11 +85,11 @@ public class Client implements Runnable
                 if(game.getState().equals("battle royale"))
                 {
                     Player p = game.getBRClient().getPlayer();
-                    dout.println("B " + p.getX() + " " + p.getY() + " " + p.getAng() + " " + p.itemUpdate());
+                    dout.println("B " + p.getX() + " " + p.getY() + " " + p.getAng() + " " + p.itemUpdate() + " " + p.getActiveItem());
                     String str = reader.readLine();
                     //System.out.println(str);
                     String[] parsed = str.split("~");
-                    System.out.println(Arrays.toString(parsed));
+                    //System.out.println(Arrays.toString(parsed));
                     Data.names = Converter.stringToStringList(parsed[0]);
                     Data.playerX = Converter.stringToIntArrL(parsed[1]);
                     Data.playerY = Converter.stringToIntArrL(parsed[2]);
@@ -98,6 +98,7 @@ public class Client implements Runnable
                     {
                         Data.actOnItems(parsed[4]);
                     }
+                    Data.playerHeld = Converter.stringToStringList(parsed[5]);
                 }
                 //System.out.println(reader.readLine());
                 dout.flush();

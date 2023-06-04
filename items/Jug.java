@@ -4,7 +4,7 @@ public class Jug extends Item
 {
     public Jug(int x, int y, String id)
     {
-        super(x, y, id);
+        super(x, y, id, 0);
 
         super.setIcon("betaicon2.png");
         super.setHeld("betaheld2.png");
