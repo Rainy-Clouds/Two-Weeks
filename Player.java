@@ -17,6 +17,8 @@ public class Player
     private Inventory inv = new Inventory(4, pick);
     private String itemUpdate;
 
+    private Health hp = new Health(100);
+    private String action;
     private Rectangle hitbox = new Rectangle(0, 0, 0, 0); // purely for testing
     
     public Player(int x, int y, int w, int h)
@@ -62,10 +64,22 @@ public class Player
         return inv;
     }
 
+    public Health getHealth()
+    {
+        return hp;
+    }
+
     public String itemUpdate()
     {
         String returnStr = itemUpdate;
         itemUpdate = null;
+        return returnStr;
+    }
+
+    public String actionUpdate()
+    {
+        String returnStr = action;
+        action = null;
         return returnStr;
     }
 
@@ -137,6 +151,7 @@ public class Player
             if(Panel.mouseDown && !acted)
             {
                 inv.currentItem().action();
+                action = inv.currentItem().getType();
                 acted = true;
             }
         }
@@ -146,6 +161,7 @@ public class Player
             pickedAlready = false;
         }
 
+        // glitch with this - two players picking up the same item will dupicate it
         for(int i = 0; i < Data.droppedItems.size(); i++)
         {
             if(Data.droppedItems.get(i).touchingRect(rect) && Panel.keyMap[5] && !pickedAlready)
@@ -261,7 +277,7 @@ public class Player
 
     public void render(Graphics g)
     {
-        renderRect(hitbox, g);
+        //renderRect(hitbox, g);
 
         pick.render(g, this);
         //tag.render(g, 400, 250);

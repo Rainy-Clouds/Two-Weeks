@@ -29,5 +29,6 @@ public class BattleRoyaleClient
         player.render(g);
         env.renderElse(g, player);
         player.getInventory().render(g);
+        player.getHealth().render(g, 10, 10);
     }
 }

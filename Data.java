@@ -9,6 +9,7 @@ public class Data
     public static ArrayList<Integer> playerY = new ArrayList<Integer>();
     public static ArrayList<Double> playerRot = new ArrayList<Double>();
     public static ArrayList<String> playerHeld = new ArrayList<String>();
+    public static ArrayList<Integer> playerHealth = new ArrayList<Integer>();
 
     public static ArrayList<Item> droppedItems = new ArrayList<Item>();
     public static ArrayList<Item> pickedUpItems = new ArrayList<Item>();

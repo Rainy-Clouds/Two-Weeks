@@ -56,7 +56,7 @@ public class EchoThread extends Thread
                     //}
                     String[] parsed = str.split(" ");
 
-                    //System.out.println(Arrays.toString(parsed));
+                    System.out.println(Arrays.toString(parsed));
                     if(game.getState().equals("battle royale menu") && parsed[0].equals("A"))
                     {
                         Data.names.set(playerNum, parsed[1]);
@@ -83,8 +83,9 @@ public class EchoThread extends Thread
                             game.getServer().updateItems(parsed[4]);
                         }
                         Data.playerHeld.set(playerNum, parsed[5]);
+                        game.getBRServer().getProcessor().playerAct(parsed[6], playerNum);
                         //System.out.println(Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY));
-                        printer.println(Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld));
+                        printer.println(Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld) + "~" + Data.playerHealth.get(playerNum));
                         if(itemUpdates != null)
                         {
                             itemUpdates = null;

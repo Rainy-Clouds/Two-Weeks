@@ -60,7 +60,10 @@ public class Server implements Runnable
             Data.playerY.add(null);
             Data.playerRot.add(null);
             Data.playerHeld.add(null);
+            Data.playerHealth.add(100);
         }
+
+        game.getBRServer().getProcessor().initializeRects();
 
         Transition.switchState("battle royale");
     }

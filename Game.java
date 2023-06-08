@@ -124,7 +124,7 @@ public class Game
     {
         if(role.equals("Client") && state.equals("battle royale"))
         {
-            brc.getPlayer().getInventory().scroll(rot);;
+            brc.getPlayer().getInventory().scroll(rot);
         }
     }
 
@@ -136,6 +136,11 @@ public class Game
     public BattleRoyaleClient getBRClient()
     {
         return brc;
+    }
+
+    public BattleRoyaleServer getBRServer()
+    {
+        return brs;
     }
 
     public Server getServer()
