@@ -79,30 +79,38 @@ public class Inventory
         }
     }
 
-    public void scroll(int rot)
+    public void scroll(int rot, Player p)
     {
-        if(rot < 0)
+        if(p.getHealth().getHealth() > 0)
         {
-            activeSpot--;
-        }
-        else
-        {
-            activeSpot++;
-        }
+            if(rot < 0)
+            {
+                activeSpot--;
+            }
+            else
+            {
+                activeSpot++;
+            }
 
-        if(activeSpot < 1)
-        {
-            activeSpot = spots;
-        }
-        if(activeSpot > spots)
-        {
-            activeSpot = 1;
+            if(activeSpot < 1)
+            {
+                activeSpot = spots;
+            }
+            if(activeSpot > spots)
+            {
+                activeSpot = 1;
+            }
         }
     }
 
     public Item currentItem()
     {
         return items[activeSpot - 1];
+    }
+
+    public Item[] getItems()
+    {
+        return items;
     }
 
     public boolean isFull()

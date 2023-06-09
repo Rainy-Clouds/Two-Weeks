@@ -79,7 +79,7 @@ public class Game
             }
             else
             {
-                brs.render(g);
+                brs.render(g, this);
             }
         }
         Transition.draw(g, this);
@@ -88,7 +88,7 @@ public class Game
     public void becomeServer()
     {
         role = "Server";
-        brs = new BattleRoyaleServer();
+        brs = new BattleRoyaleServer(this);
         brmenu.changeScreen("Server");
         server = new Server(this);
     }
@@ -124,7 +124,7 @@ public class Game
     {
         if(role.equals("Client") && state.equals("battle royale"))
         {
-            brc.getPlayer().getInventory().scroll(rot);
+            brc.getPlayer().getInventory().scroll(rot, getBRClient().getPlayer());
         }
     }
 

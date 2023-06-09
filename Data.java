@@ -13,6 +13,9 @@ public class Data
 
     public static ArrayList<Item> droppedItems = new ArrayList<Item>();
     public static ArrayList<Item> pickedUpItems = new ArrayList<Item>();
+    public static int placement;
+    public static String killer;
+    public static String bulletData;
 
     public static void actOnItems(String actData)
     {
@@ -28,12 +31,16 @@ public class Data
                     droppedItems.remove(getItemIndex(parsed[i + 1]));
                 }
             }
-            if(parsed[i].equals("add"))
+            if(parsed[i].equals("add")) // item rel
             {
                 String[] subparsed = parsed[i + 1].split("&");
                 if(subparsed[0].equals("jug"))
                 {
                     droppedItems.add(new Jug(Integer.valueOf(subparsed[2]), Integer.valueOf(subparsed[3]), subparsed[1]));
+                }
+                else if(subparsed[0].equals("pistol"))
+                {
+                    droppedItems.add(new Pistol(Integer.valueOf(subparsed[2]), Integer.valueOf(subparsed[3]), subparsed[1]));
                 }
             }
         }

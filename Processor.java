@@ -4,6 +4,13 @@ import java.util.*;
 public class Processor 
 {
     private ArrayList<Rectangle> playerRects = new ArrayList<Rectangle>();
+    private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+    private Game game;
+
+    public Processor(Game g)
+    {
+        game = g;
+    }
 
     public void initializeRects()
     {
@@ -49,6 +56,23 @@ public class Processor
             }
             catch (Exception e) {}
         }
+
+        ArrayList<Integer> removals = new ArrayList<Integer>();
+        for(int i = 0; i < bullets.size(); i++)
+        {
+            bullets.get(i).update();
+            if(bullets.get(i).getMaxDist() <= 0)
+            {
+                removals.add(i);
+            }
+        }
+
+        int chacha = 0;
+        for(int i : removals)
+        {
+            bullets.remove(i - chacha);
+            chacha++;
+        }
     }
 
     public void playerAct(String action, int playerNum)
@@ -60,15 +84,46 @@ public class Processor
 
             for(int i = 0; i < playerRects.size(); i++)
             {
-                if(i != playerNum)
+                if(i != playerNum && Data.playerHealth.get(i) > 0)
                 {
                     if(playerRects.get(i).intersects(hitbox))
                     {
                         Data.playerHealth.set(i, Data.playerHealth.get(i) - 5);
+                        if(Data.playerHealth.get(i) <= 0)
+                        {
+                            try
+                            {
+                                game.getServer().getEcho(i).setKiller(Data.names.get(playerNum));
+                            }
+                            catch(Exception e) {}
+                        }
                     }
                 }
             }
         }
+        else if(action.equals("pistol"))
+        {
+            double ang =  Data.playerRot.get(playerNum);
+            bullets.add(new Bullet(action, Data.playerX.get(playerNum) + 27 + (int)(27 * Math.cos(Math.toRadians(ang))), Data.playerY.get(playerNum) + 25 + (int)(27 * Math.sin(Math.toRadians(ang))), ang));
+        }
+    }
+
+    public String getBulletData()
+    {
+        if(bullets.size() > 0)
+        {
+            String ret = "";
+            for(int i = 0; i < bullets.size(); i++)
+            {
+                ret += bullets.get(i).getData();
+                if(i < bullets.size() - 1)
+                {
+                    ret += ":";
+                }
+            }
+            return ret;
+        }
+        return null;
     }
 
     // for debugging

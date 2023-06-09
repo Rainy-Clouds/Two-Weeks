@@ -2,7 +2,13 @@ import java.awt.*;
 
 public class BattleRoyaleServer
 {
-    private Processor processor = new Processor();
+    private Processor processor;
+    //private int zest;
+
+    public BattleRoyaleServer(Game game)
+    {
+        processor = new Processor(game);
+    }
 
     public Processor getProcessor()
     {
@@ -14,8 +20,9 @@ public class BattleRoyaleServer
         processor.update();
     }
 
-    public void render(Graphics g)
+    public void render(Graphics g, Game game)
     {
-        
+        g.setFont(new Font("Arial", Font.PLAIN, 36));
+        Algo.centerString(g, "Players Alive: " + game.getServer().getEchoes().size(), 0, 0, 800, 600);
     }
 }

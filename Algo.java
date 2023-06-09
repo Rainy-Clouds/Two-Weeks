@@ -61,4 +61,36 @@ public class Algo
         }
         return angle;
     }
+
+    public static String numText(int num)
+    {
+        if(num == 1)
+        {
+            return "1st";
+        }
+        else if(num == 2)
+        {
+            return "2nd";
+        }
+        else if(num == 3)
+        {
+            return "3rd";
+        }
+        else
+        {
+            return num + "th";
+        }
+    }
+
+    public static int round(double num)
+    {
+        if(num >= 0)
+        {
+            return (int) (num + 0.5);
+        }
+        else
+        {
+            return (int) (num - 0.5);
+        }
+    }
 }

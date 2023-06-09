@@ -10,6 +10,7 @@ public class EchoThread extends Thread
     private Game game;
     private String message;
     private String itemUpdates;
+    private String killer;
 
     public EchoThread(Socket s, Game g, int player)
     {
@@ -25,6 +26,16 @@ public class EchoThread extends Thread
         message = msg;
     }
 
+    public void setKiller(String name)
+    {
+        killer = name;
+    }
+
+    public int getPlayerNum()
+    {
+        return playerNum;
+    }
+
     public void updateItems(String msg)
     {
         if(itemUpdates == null)
@@ -35,6 +46,15 @@ public class EchoThread extends Thread
         {
             itemUpdates += "-" + msg;
         }
+    }
+
+    public void killPlayer()
+    {
+        Data.playerX.set(playerNum, 0);
+        Data.playerY.set(playerNum, 0);
+        Data.playerRot.set(playerNum, 0.0);
+        Data.playerHeld.set(playerNum, "dead");
+        Data.playerHealth.set(playerNum, 0);
     }
 
     public void run()
@@ -56,7 +76,7 @@ public class EchoThread extends Thread
                     //}
                     String[] parsed = str.split(" ");
 
-                    System.out.println(Arrays.toString(parsed));
+                    //System.out.println(Arrays.toString(parsed));
                     if(game.getState().equals("battle royale menu") && parsed[0].equals("A"))
                     {
                         Data.names.set(playerNum, parsed[1]);
@@ -85,7 +105,24 @@ public class EchoThread extends Thread
                         Data.playerHeld.set(playerNum, parsed[5]);
                         game.getBRServer().getProcessor().playerAct(parsed[6], playerNum);
                         //System.out.println(Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY));
-                        printer.println(Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld) + "~" + Data.playerHealth.get(playerNum));
+                        System.out.println(Arrays.toString(parsed));
+                        if(Data.playerHealth.get(playerNum) > 0)
+                        {
+                            printer.println("alive~" + Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld) + "~" + Data.playerHealth.get(playerNum) + "~" + game.getBRServer().getProcessor().getBulletData());
+                        }
+                        else
+                        {
+                            printer.println("dead~" + Data.playerHealth.get(playerNum) + "~" + game.getServer().getEchoes().size() + "~" + killer);
+                            String droppedLoot = dis.readLine();
+                            if(!droppedLoot.equals("null"))
+                            {
+                                game.getServer().updateItems(droppedLoot);
+                            }
+                            killPlayer();
+                            game.getServer().getEchoes().remove(this);
+                            running = false;
+                        }
+                        
                         if(itemUpdates != null)
                         {
                             itemUpdates = null;
@@ -106,7 +143,15 @@ public class EchoThread extends Thread
             }
             catch(Exception e)
             {
-                e.printStackTrace(System.out);
+                //e.printStackTrace(System.out);
+
+                if(e.getMessage().equals("Connection reset"))
+                {
+                    killPlayer();
+                    System.out.println(game.getServer().getEchoes().size());
+                    game.getServer().getEchoes().remove(this);
+                    running = false;
+                }
             }
         }
     }

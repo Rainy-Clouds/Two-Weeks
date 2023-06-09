@@ -11,9 +11,13 @@ public class Environment
     private Map map = new Map();
     private ArrayList<Obstacle> obs = new ArrayList<Obstacle>();
     private BufferedImage otherimg;
-    private String[] itemNames = {"pickaxe", "jug"};
+
+    private String[] itemNames = {"pickaxe", "jug", "pistol"}; // item rel
     private BufferedImage[] helds = new BufferedImage[itemNames.length];
     private BufferedImage[] heldsAni = new BufferedImage[itemNames.length];
+
+    private String[] bulletNames = {"pistol"};
+    private BufferedImage[] bullets = new BufferedImage[bulletNames.length];
     
     public Environment()
     {
@@ -22,15 +26,20 @@ public class Environment
             tags[i] = new Nametag();
         }
 
-        try
+        // item rel
+        try 
         {
             otherimg = ImageIO.read(new File("assets\\betaother.png"));
 
             helds[0] = ImageIO.read(new File("assets\\betaheld.png"));
             helds[1] = ImageIO.read(new File("assets\\betaheld2.png"));
+            helds[2] = ImageIO.read(new File("assets\\betaheld3.png"));
 
             heldsAni[0] = ImageIO.read(new File("assets\\betaheldanim.png"));
             heldsAni[1] = ImageIO.read(new File("assets\\betaheld2.png"));
+            heldsAni[2] = ImageIO.read(new File("assets\\betaheldanim3.png"));
+
+            bullets[0] = ImageIO.read(new File("assets\\betabullet.png"));
         }
         catch(Exception e)
         {
@@ -76,6 +85,8 @@ public class Environment
         {
             Data.droppedItems.get(i).render(g, player);
         }
+
+        drawBullets(g, player);
     }
 
     public void renderElse(Graphics g, Player player)
@@ -89,7 +100,7 @@ public class Environment
         }
         for(int i = 0; i < Data.playerX.size(); i++)
         {
-            if(i != Client.playerNum)
+            if(i != Client.playerNum && !Data.playerHeld.get(i).equals("dead"))
             {    
                 //g.setColor(Color.BLUE);
                 //g.fillRect(getLocalX(i, player), getLocalY(i, player), BattleRoyaleClient.playerSize, BattleRoyaleClient.playerSize);
@@ -99,11 +110,12 @@ public class Environment
                 tags[i].render(g, getLocalX(i, player) + BattleRoyaleClient.playerSize / 2, getLocalY(i, player) - 30);
             }
         }
+        //drawBullets(g, player); // TESTING ONLY
     }
 
     public void drawHeld(Graphics g, Player p, int ind, String name)
     {
-        if(!name.equals("null"))
+        if(!name.equals("null") && !name.equals("dead"))
         {
             String[] parsed = name.split("-");
             //System.out.println(Arrays.toString(parsed));
@@ -119,6 +131,24 @@ public class Environment
                 }
             }
             catch(Exception e) {}
+        }
+    }
+
+    public void drawBullets(Graphics g, Player p)
+    {
+        if(Data.bulletData != null)
+        {
+            String[] superparsed = Data.bulletData.split(":");
+            System.out.println(Arrays.toString(superparsed));
+            for(String str : superparsed)
+            {
+                String[] parsed = str.split("&");
+                if(Arrays.asList(bulletNames).indexOf(parsed[0]) != -1)
+                {
+                    //System.out.println(Integer.valueOf(parsed[3]));
+                    g.drawImage(Algo.rotateImage(bullets[Arrays.asList(bulletNames).indexOf(parsed[0])], Integer.valueOf(parsed[3])), Algo.getLocalX(Integer.valueOf(parsed[1]), p) - 25, Algo.getLocalY(Integer.valueOf(parsed[2]), p) - 25, null);
+                }
+            }
         }
     }
 

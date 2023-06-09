@@ -81,6 +81,23 @@ public class Server implements Runnable
         return map;
     }
 
+    public ArrayList<EchoThread> getEchoes()
+    {
+        return echoes;
+    }
+
+    public EchoThread getEcho(int playerNum)
+    {
+        for(int i = 0; i < echoes.size(); i++)
+        {
+            if(echoes.get(i).getPlayerNum() == playerNum)
+            {
+                return echoes.get(i);
+            }
+        }
+        return null;
+    }
+
     public void run()
     {
         ServerSocket svSoc = null;
@@ -107,7 +124,7 @@ public class Server implements Runnable
             }
             catch(Exception e)
             {
-                e.printStackTrace(System.out);;
+                e.printStackTrace(System.out);
             }
 
             if(soc != null)

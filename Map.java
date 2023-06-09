@@ -143,12 +143,16 @@ public class Map
         }
     }
 
-    public void spawnItems(int gridX, int gridY, String str)
+    public void spawnItems(int gridX, int gridY, String str) // item rel
     {
         String[] parsed = str.split("-");
         if(parsed[0].equals("jug"))
         {
             Data.droppedItems.add(new Jug(gridX * 200 + Integer.valueOf(parsed[1]), gridY * 200 + Integer.valueOf(parsed[2]), parsed[3]));
+        }
+        if(parsed[0].equals("pistol"))
+        {
+            Data.droppedItems.add(new Pistol(gridX * 200 + Integer.valueOf(parsed[1]), gridY * 200 + Integer.valueOf(parsed[2]), parsed[3]));
         }
     }
 

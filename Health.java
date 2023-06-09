@@ -19,6 +19,11 @@ public class Health
         health = newHealth;
     }
 
+    public int getHealth()
+    {
+        return health;
+    }
+
     public void render(Graphics g, int x, int y)
     {
         g.setColor(Color.BLACK);

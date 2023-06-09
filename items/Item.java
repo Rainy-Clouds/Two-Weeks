@@ -4,6 +4,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import java.time.*;
 
+// IMPORTANT: When making a new item, make sure to look up "item rel" and edit every you have to edit
 public class Item 
 {
     private BufferedImage icon, held, drop, anim;

@@ -12,6 +12,7 @@ public class Player
     private Rectangle rect, rectL, rectR, rectT, rectB;
     private BufferedImage img;
     private boolean pickedAlready, acted;
+    private boolean movable = true;
 
     private Pickaxe pick = new Pickaxe();
     private Inventory inv = new Inventory(4, pick);
@@ -108,107 +109,140 @@ public class Player
 
     public void update(Game game, ArrayList<Obstacle> obs)
     {
-        keyActions(obs);
-        tag.setName(game.getClient().getName());
+        movable = hp.getHealth() > 0;
 
-        inv.update(this);
-        pick.update(this);
-
-        fixateDaggerHitbox(hitbox, 400, 300, angle);
-
-        angle = Math.toDegrees(Math.atan(((double)Panel.mousex - 400) / (-1 * ((double)Panel.mousey - 300))));
-        if((double)Panel.mousey - 300 > 0)
+        if(movable)
         {
-            angle += 180;
-        }
-        if(Math.abs(angle) == 90)
-        {
-            angle *= -1;
-        }
-        // try
-        // {
-        //     angle = Math.toDegrees(Math.atan(((double)Panel.mousex - 400) / (-1 * ((double)Panel.mousey - 300))));
-        //     if((double)Panel.mousey - 300 > 0)
-        //     {
-        //         angle += 180;
-        //     }
-        // }
-        // catch(Exception e)
-        // {
-        //     System.out.println("divide by zero");
-        //     angle = -90;
-        // }
-        //System.out.println(angle);
-        //System.out.println(x + ", " + y);
+            keyActions(obs);
+            tag.setName(game.getClient().getName());
 
-        if(!Panel.mouseDown)
-        {
-            acted = false;
-        }
-
-        if(inv.currentItem() != null)
-        {
-            if(Panel.mouseDown && !acted)
+            inv.update(this);
+            for(int i = 0; i < inv.getItems().length; i++)
             {
-                inv.currentItem().action();
-                action = inv.currentItem().getType();
-                acted = true;
+                if(inv.getItems()[i] != null)
+                {
+                    inv.getItems()[i].update(this);
+                }
             }
-        }
+            //pick.update(this);
 
-        if(!Panel.keyMap[5])
-        {
-            pickedAlready = false;
-        }
-
-        // glitch with this - two players picking up the same item will dupicate it
-        for(int i = 0; i < Data.droppedItems.size(); i++)
-        {
-            if(Data.droppedItems.get(i).touchingRect(rect) && Panel.keyMap[5] && !pickedAlready)
+            fixateDaggerHitbox(hitbox, 400, 300, angle);
+            
+            angle = Math.toDegrees(Math.atan(((double)Panel.mousex - 400) / (-1 * ((double)Panel.mousey - 300))));
+            if((double)Panel.mousey - 300 > 0)
             {
-                if(inv.pickUp(Data.droppedItems.get(i)) == 0)
+                angle += 180;
+            }
+            if(Math.abs(angle) == 90)
+            {
+                angle *= -1;
+            }
+            // try
+            // {
+            //     angle = Math.toDegrees(Math.atan(((double)Panel.mousex - 400) / (-1 * ((double)Panel.mousey - 300))));
+            //     if((double)Panel.mousey - 300 > 0)
+            //     {
+            //         angle += 180;
+            //     }
+            // }
+            // catch(Exception e)
+            // {
+            //     System.out.println("divide by zero");
+            //     angle = -90;
+            // }
+            //System.out.println(angle);
+            //System.out.println(x + ", " + y);
+
+            if(!Panel.mouseDown)
+            {
+                acted = false;
+            }
+
+            if(inv.currentItem() != null)
+            {
+                if(Panel.mouseDown && !acted)
+                {
+                    inv.currentItem().action();
+                    action = inv.currentItem().getType();
+                    acted = true;
+                }
+            }
+
+            if(!Panel.keyMap[5])
+            {
+                pickedAlready = false;
+            }
+
+            // glitch with this - two players picking up the same item will dupicate it
+            for(int i = 0; i < Data.droppedItems.size(); i++)
+            {
+                if(Data.droppedItems.get(i).touchingRect(rect) && Panel.keyMap[5] && !pickedAlready)
+                {
+                    if(inv.pickUp(Data.droppedItems.get(i)) == 0)
+                    {
+                        if(itemUpdate == null)
+                        {
+                            itemUpdate = "remove-" + Data.droppedItems.get(i).getID();
+                        }
+                        else
+                        {
+                            itemUpdate += "-remove-" + Data.droppedItems.get(i).getID();
+                        }
+                        Data.droppedItems.get(i).pickedUp();
+                        Data.pickedUpItems.add(Data.droppedItems.get(i));
+                        Data.droppedItems.remove(i);
+                        pickedAlready = true;
+                    }
+                }
+            }
+
+            // this code sucks man what am I doing with my life
+            if(Panel.keyMap[4])
+            {
+                Item droppedItem = inv.dropItem(this);
+                if(droppedItem != null)
                 {
                     if(itemUpdate == null)
                     {
-                        itemUpdate = "remove-" + Data.droppedItems.get(i).getID();
+                        itemUpdate = "add-" + droppedItem.getType() + "&" + droppedItem.getID() + "&" + droppedItem.getX() + "&" + droppedItem.getY();
                     }
                     else
                     {
-                        itemUpdate += "-remove-" + Data.droppedItems.get(i).getID();
+                        itemUpdate += "-add-" + droppedItem.getType() + "&" + droppedItem.getID() + "&" + droppedItem.getX() + "&" + droppedItem.getY();
                     }
-                    Data.droppedItems.get(i).pickedUp();
-                    Data.pickedUpItems.add(Data.droppedItems.get(i));
-                    Data.droppedItems.remove(i);
-                    pickedAlready = true;
+
+                    if(Data.getItemIndex(droppedItem.getID()) != -1)
+                    {
+                        try
+                        {
+                            Data.pickedUpItems.remove(Data.getItemIndex(droppedItem.getID()));
+                        }
+                        catch(Exception e) { System.out.println("Street street ppl"); }
+                    }
                 }
             }
         }
+    }
 
-        // this code sucks man what am I doing with my life
-        if(Panel.keyMap[4])
+    public String dropAll()
+    {
+        Item[] items = inv.getItems();
+        String ret = null;
+        for(int i = 1; i < items.length; i++)
         {
-            Item droppedItem = inv.dropItem(this);
-            if(droppedItem != null)
+            if(items[i] != null)
             {
-                if(itemUpdate == null)
+                if(ret == null)
                 {
-                    itemUpdate = "add-" + droppedItem.getType() + "&" + droppedItem.getID() + "&" + droppedItem.getX() + "&" + droppedItem.getY();
+                    ret = "add-" + items[i].getType() + "&" + items[i].getID() + "&" + x + "&" + y;
                 }
                 else
                 {
-                    itemUpdate += "-add-" + droppedItem.getType() + "&" + droppedItem.getID() + "&" + droppedItem.getX() + "&" + droppedItem.getY();
-                }
-
-                if(Data.getItemIndex(droppedItem.getID()) != -1)
-                {
-                    try
-                    {
-                        Data.pickedUpItems.remove(Data.getItemIndex(droppedItem.getID()));
-                    }
-                    catch(Exception e) { System.out.println("Street street ppl"); }
+                    ret += "-add-" + items[i].getType() + "&" + items[i].getID() + "&" + x + "&" + y;
                 }
             }
         }
+        return ret;
     }
 
     public void keyActions(ArrayList<Obstacle> obs)

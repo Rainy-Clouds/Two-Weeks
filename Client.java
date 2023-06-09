@@ -90,16 +90,28 @@ public class Client implements Runnable
                     //System.out.println(str);
                     String[] parsed = str.split("~");
                     System.out.println(Arrays.toString(parsed));
-                    Data.names = Converter.stringToStringList(parsed[0]);
-                    Data.playerX = Converter.stringToIntArrL(parsed[1]);
-                    Data.playerY = Converter.stringToIntArrL(parsed[2]);
-                    Data.playerRot = Converter.stringToDoubleArrL(parsed[3]);
-                    if(!parsed[4].equals("null"))
+                    if(parsed[0].equals("alive"))
                     {
-                        Data.actOnItems(parsed[4]);
+                        Data.names = Converter.stringToStringList(parsed[1]);
+                        Data.playerX = Converter.stringToIntArrL(parsed[2]);
+                        Data.playerY = Converter.stringToIntArrL(parsed[3]);
+                        Data.playerRot = Converter.stringToDoubleArrL(parsed[4]);
+                        if(!parsed[5].equals("null"))
+                        {
+                            Data.actOnItems(parsed[5]);
+                        }
+                        Data.playerHeld = Converter.stringToStringList(parsed[6]);
+                        p.getHealth().setHealth(Integer.valueOf(parsed[7]));
+                        Data.bulletData = parsed[8];
                     }
-                    Data.playerHeld = Converter.stringToStringList(parsed[5]);
-                    p.getHealth().setHealth(Integer.valueOf(parsed[6]));
+                    else
+                    {
+                        p.getHealth().setHealth(Integer.valueOf(parsed[1]));
+                        Data.placement = Integer.valueOf(parsed[2]);
+                        Data.killer = parsed[3];
+                        dout.println(p.dropAll());
+                        running = false;
+                    }
                 }
                 //System.out.println(reader.readLine());
                 dout.flush();

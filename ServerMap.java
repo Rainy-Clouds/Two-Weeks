@@ -41,7 +41,7 @@ public class ServerMap
             id = "" + Algo.randInt(1, 9) + Algo.randInt(1, 9) + Algo.randInt(1, 9);
         }
         usedIDs.add(id);
-        return "jug-0-0-" + id;
+        return "pistol-0-0-" + id;
     }
 
     public String generateObstacles()
