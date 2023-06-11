@@ -73,6 +73,34 @@ public class Processor
             bullets.remove(i - chacha);
             chacha++;
         }
+
+        removals.clear();
+        for(int i = 0; i < playerRects.size(); i++)
+        {
+            for(int j = 0; j < bullets.size(); j++)
+            {
+                if(i != bullets.get(j).getPlayerFired() && playerRects.get(i).intersects(bullets.get(j).getRect()))
+                {
+                    Data.playerHealth.set(i, Data.playerHealth.get(i) - bullets.get(j).getDamage());
+                    removals.add(j);
+                    if(Data.playerHealth.get(i) <= 0)
+                    {
+                        try
+                        {
+                            game.getServer().getEcho(i).setKiller(Data.names.get(bullets.get(j).getPlayerFired()));
+                        }
+                        catch(Exception e) {}
+                    }
+                }
+            }
+        }
+
+        chacha = 0;
+        for(int i : removals)
+        {
+            bullets.remove(i - chacha);
+            chacha++;
+        }
     }
 
     public void playerAct(String action, int playerNum)
@@ -104,26 +132,35 @@ public class Processor
         else if(action.equals("pistol"))
         {
             double ang =  Data.playerRot.get(playerNum);
-            bullets.add(new Bullet(action, Data.playerX.get(playerNum) + 27 + (int)(27 * Math.cos(Math.toRadians(ang))), Data.playerY.get(playerNum) + 25 + (int)(27 * Math.sin(Math.toRadians(ang))), ang));
+            bullets.add(new Bullet(action, Data.playerX.get(playerNum) + 27 + (int)(27 * Math.cos(Math.toRadians(ang))), Data.playerY.get(playerNum) + 25 + (int)(27 * Math.sin(Math.toRadians(ang))), ang, playerNum));
         }
     }
 
-    public String getBulletData()
+    public String getBulletData(int playerNum)
     {
+        String ret = "";
         if(bullets.size() > 0)
         {
-            String ret = "";
             for(int i = 0; i < bullets.size(); i++)
             {
-                ret += bullets.get(i).getData();
-                if(i < bullets.size() - 1)
+                if(bullets.get(i).getX() >= Data.playerX.get(playerNum) - 420 && bullets.get(i).getX() <= Data.playerX.get(playerNum) + 480 && bullets.get(i).getY() >= Data.playerY.get(playerNum) - 320 && bullets.get(i).getY() <= Data.playerY.get(playerNum) + 380)
                 {
-                    ret += ":";
+                    ret += bullets.get(i).getData();
+                    if(i < bullets.size() - 1)
+                    {
+                        ret += ":";
+                    }
                 }
             }
+        }
+        if(ret.equals(""))
+        {
+            return null;
+        }
+        else
+        {
             return ret;
         }
-        return null;
     }
 
     // for debugging

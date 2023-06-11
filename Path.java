@@ -9,7 +9,11 @@ public class Path extends Tile
 
     public void render(Graphics g, Player p)
     {
-        g.setColor(new Color(235, 188, 113));
-        g.fillRect(super.getScreenX(p), super.getScreenY(p), 200, 200);
+        g.drawImage(TextureLoader.getPath(super.getAniNum()), super.getScreenX(p), super.getScreenY(p), null);
+    }
+
+    public String getType()
+    {
+        return "path";
     }
 }

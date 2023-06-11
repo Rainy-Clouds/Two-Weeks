@@ -160,7 +160,7 @@ public class Player
 
             if(inv.currentItem() != null)
             {
-                if(Panel.mouseDown && !acted)
+                if(Panel.mouseDown && !acted && inv.currentItem().canAct())
                 {
                     inv.currentItem().action();
                     action = inv.currentItem().getType();

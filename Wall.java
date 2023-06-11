@@ -9,7 +9,13 @@ public class Wall extends Obstacle
 
     public void render(Graphics g, Player p)
     {
-        g.setColor(new Color(191, 121, 59));
-        g.fillRect((int)super.getRect().getX(), (int)super.getRect().getY(), (int)super.getRect().getWidth(), (int)super.getRect().getHeight());
+        if(super.getRect().getWidth() > 100)
+        {
+            g.drawImage(TextureLoader.wall(0), (int)super.getRect().getX(), (int)super.getRect().getY(), null);
+        }
+        else
+        {
+            g.drawImage(TextureLoader.wall(1), (int)super.getRect().getX(), (int)super.getRect().getY(), null);
+        }
     }
 }

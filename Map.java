@@ -141,6 +141,98 @@ public class Map
             getTileAt(Integer.valueOf(parsed[0]), Integer.valueOf(parsed[1])).spawnObstacles(parsed[2]);
             spawnItems(Integer.valueOf(parsed[0]), Integer.valueOf(parsed[1]), parsed[3]);
         }
+
+        for(Tile t : tiles)
+        {
+            if(t.getType().equals("path"))
+            {
+                boolean[] nesw = getSurrounding(t, "grass");
+                if(!nesw[0] && nesw[1] && !nesw[2] && !nesw[3])
+                {
+                    t.setAniNum(1);
+                }
+                else if(!nesw[0] && !nesw[1] && !nesw[2] && nesw[3])
+                {
+                    t.setAniNum(2);
+                }
+                else if(nesw[0] && !nesw[1] && !nesw[2] && !nesw[3])
+                {
+                    t.setAniNum(3);
+                }
+                else if(!nesw[0] && !nesw[1] && nesw[2] && !nesw[3])
+                {
+                    t.setAniNum(4);
+                }
+                else if(nesw[0] && nesw[1] && !nesw[2] && !nesw[3])
+                {
+                    t.setAniNum(5);
+                }
+                else if(!nesw[0] && nesw[1] && nesw[2] && !nesw[3])
+                {
+                    t.setAniNum(6);
+                }
+                else if(nesw[0] && !nesw[1] && !nesw[2] && nesw[3])
+                {
+                    t.setAniNum(7);
+                }
+                else if(!nesw[0] && !nesw[1] && nesw[2] && nesw[3])
+                {
+                    t.setAniNum(8);
+                }
+                else if(!nesw[0] && nesw[1] && !nesw[2] && nesw[3])
+                {
+                    t.setAniNum(9);
+                }
+                else if(nesw[0] && !nesw[1] && nesw[2] && !nesw[3])
+                {
+                    t.setAniNum(10);
+                }
+                else
+                {
+                    t.setAniNum(0);
+                }
+            }
+            else if(t.getType().equals("bridge"))
+            {
+                boolean[] nesw = getSurrounding(t, "water");
+                if(!nesw[0] && nesw[1] && !nesw[2] && nesw[3])
+                {
+                    t.setAniNum(0);
+                }
+                else
+                {
+                    t.setAniNum(1);
+                }
+            }
+        }
+    }
+
+    public boolean[] getSurrounding(Tile t, String type)
+    {
+        boolean north = false;
+        boolean east = false;
+        boolean south = false;
+        boolean west = false;
+
+        if(getTileAt(t.getGridX(), t.getGridY() - 1) != null)
+        {
+            north = getTileAt(t.getGridX(), t.getGridY() - 1).getType().equals(type);
+        }
+        if(getTileAt(t.getGridX() + 1, t.getGridY()) != null)
+        {
+            east = getTileAt(t.getGridX() + 1, t.getGridY()).getType().equals(type);
+        }
+        if(getTileAt(t.getGridX(), t.getGridY() + 1) != null)
+        {
+            south = getTileAt(t.getGridX(), t.getGridY() + 1).getType().equals(type);
+        }
+        if(getTileAt(t.getGridX() - 1, t.getGridY()) != null)
+        {
+            west = getTileAt(t.getGridX() - 1, t.getGridY()).getType().equals(type);
+        }
+
+        boolean[] ret = {north, east, south, west};
+        return ret;
     }
 
     public void spawnItems(int gridX, int gridY, String str) // item rel

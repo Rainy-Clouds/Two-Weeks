@@ -108,7 +108,7 @@ public class EchoThread extends Thread
                         System.out.println(Arrays.toString(parsed));
                         if(Data.playerHealth.get(playerNum) > 0)
                         {
-                            printer.println("alive~" + Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld) + "~" + Data.playerHealth.get(playerNum) + "~" + game.getBRServer().getProcessor().getBulletData());
+                            printer.println("alive~" + Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld) + "~" + Data.playerHealth.get(playerNum) + "~" + game.getBRServer().getProcessor().getBulletData(playerNum));
                         }
                         else
                         {

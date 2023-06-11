@@ -9,7 +9,11 @@ public class Bridge extends Tile
 
     public void render(Graphics g, Player p)
     {
-        g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(super.getScreenX(p), super.getScreenY(p), 200, 200);
+        g.drawImage(TextureLoader.getBridge(super.getAniNum()), super.getScreenX(p), super.getScreenY(p), null);
+    }
+
+    public String getType()
+    {
+        return "bridge";
     }
 }

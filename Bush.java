@@ -2,10 +2,14 @@ import java.awt.*;
 
 public class Bush extends Obstacle
 {
+    private int type;
+
     public Bush(int x, int y, int type)
     {
         // type 1
         super(x, y, 200, 100);
+
+        this.type = type;
 
         if(type == 2)
         {
@@ -15,7 +19,6 @@ public class Bush extends Obstacle
 
     public void render(Graphics g, Player p)
     {
-        g.setColor(new Color(50, 168, 82));
-        g.fillRect((int)super.getRect().getX(), (int)super.getRect().getY(), (int)super.getRect().getWidth(), (int)super.getRect().getHeight());
+        g.drawImage(TextureLoader.bush(type - 1), (int)super.getRect().getX(), (int)super.getRect().getY(), null);
     }
 }

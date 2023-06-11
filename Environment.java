@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 public class Environment 
 {
     private Nametag[] tags = new Nametag[8];
+    private TextureLoader tx = new TextureLoader();
     private Map map = new Map();
     private ArrayList<Obstacle> obs = new ArrayList<Obstacle>();
     private BufferedImage otherimg;

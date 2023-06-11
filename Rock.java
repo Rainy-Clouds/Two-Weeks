@@ -15,7 +15,6 @@ public class Rock extends Obstacle
 
     public void render(Graphics g, Player p)
     {
-        g.setColor(Color.GRAY);
-        g.fillRect((int)super.getRect().getX(), (int)super.getRect().getY(), (int)super.getRect().getWidth(), (int)super.getRect().getHeight());
+        g.drawImage(TextureLoader.rock(), (int)super.getRect().getX(), (int)super.getRect().getY(), null);
     }
 }

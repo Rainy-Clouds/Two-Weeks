@@ -53,8 +53,7 @@ public class House
 
     public void render(Graphics g, Player p)
     {
-        g.setColor(new Color(219, 141, 72));
-        g.fillRect(Algo.getLocalX(globalX, p), Algo.getLocalY(globalY, p), 200, 200);
+        g.drawImage(TextureLoader.floor(), Algo.getLocalX(globalX, p), Algo.getLocalY(globalY, p), null);
         for(Wall w : walls)
         {
             w.render(g, p);

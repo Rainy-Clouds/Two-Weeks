@@ -2,7 +2,7 @@ public class Pistol extends Item
 {
     public Pistol(int x, int y, String id)
     {
-        super(x, y, id, 300);
+        super(x, y, id, 500);
 
         super.setIcon("betaicon3.png");
         super.setHeld("betaheld3.png");

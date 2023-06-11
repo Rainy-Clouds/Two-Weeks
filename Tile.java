@@ -7,6 +7,7 @@ public class Tile
     private int gridY;
     private ArrayList<Obstacle> myObstacles = new ArrayList<Obstacle>();
     private House house;
+    private int aniNum;
     
     public Tile() {}
 
@@ -42,6 +43,16 @@ public class Tile
     public int getScreenY(Player p)
     {
         return Algo.getLocalY(gridY * 200, p);
+    }
+
+    public int getAniNum()
+    {
+        return aniNum;
+    }
+
+    public void setAniNum(int num)
+    {
+        aniNum = num;
     }
 
     public ArrayList<Obstacle> getObstacles()
@@ -97,5 +108,10 @@ public class Tile
             //giveMeHouse();
             house = new House(gridX * 200, gridY * 200, Integer.valueOf(splitObs[3]));
         }
+    }
+
+    public String getType()
+    {
+        return "tile";
     }
 }
