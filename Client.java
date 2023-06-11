@@ -91,7 +91,7 @@ public class Client implements Runnable
                     String str = reader.readLine();
                     //System.out.println(str);
                     String[] parsed = str.split("~");
-                    System.out.println(Arrays.toString(parsed));
+                    //System.out.println(Arrays.toString(parsed));
                     if(parsed[0].equals("alive"))
                     {
                         Data.names = Converter.stringToStringList(parsed[1]);
@@ -103,12 +103,13 @@ public class Client implements Runnable
                             Data.actOnItems(parsed[5]);
                         }
                         Data.playerHeld = Converter.stringToStringList(parsed[6]);
-                        p.getHealth().setHealth(Integer.valueOf(parsed[7]));
+                        p.getHealth().setHealth(Double.valueOf(parsed[7]));
                         Data.bulletData = parsed[8];
+                        game.getBRClient().getEnvironment().updateStormEye(parsed[9]);
                     }
                     else
                     {
-                        p.getHealth().setHealth(Integer.valueOf(parsed[1]));
+                        p.getHealth().setHealth(Double.valueOf(parsed[1]));
                         Data.placement = Integer.valueOf(parsed[2]);
                         Data.killer = parsed[3];
                         dout.println(p.dropAll());

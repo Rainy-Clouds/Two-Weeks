@@ -25,9 +25,9 @@ public class ServerMap
         {
             for(int j = 0; j < mapData[i].length; j++)
             {
-                if(mapData[i][j].equals("g"))
+                if(mapData[i][j].equals("g") || mapData[i][j].equals("i"))
                 {
-                    base += "~" + j + " " + i + " " + generateObstacles() + " " + generateItems();
+                    base += "~" + j + " " + i + " " + generateObstacles() + " " + generateItems(mapData[i][j]);
                 }
                 if(mapData[i][j].equals("s"))
                 {
@@ -44,7 +44,50 @@ public class ServerMap
         return spawnCoords.get(playerNum);
     }
 
-    public String generateItems()
+    public String generateItems(String gi)
+    {
+        if(gi.equals("i"))
+        {
+            String[] items = {"pistol", "smg", "shotgun", "rifle"};
+            return items[Algo.randInt(0, items.length - 1)] + "-" + Algo.randInt(0, 140) + "-" + Algo.randInt(0, 140) + "-" + getID();
+        }
+        else
+        {
+            if(Algo.randInt(0, 6) == 2)
+            {
+                int num = Algo.randInt(1, 21);
+                String item = "";
+                if(num >= 1 && num <= 3)
+                {
+                    item = "smg";
+                }
+                else if(num >= 4 && num <= 6)
+                {
+                    item = "shotgun";
+                }
+                else if(num >= 7 && num <= 9)
+                {
+                    item = "rifle";
+                }
+                else if(num >= 10 && num <= 12)
+                {
+                    item = "jug";
+                }
+                else if(num >= 13 && num <= 16)
+                {
+                    item = "pistol";
+                }
+                else
+                {
+                    item = "burger";
+                }
+                return item + "-" + Algo.randInt(0, 140) + "-" + Algo.randInt(0, 140) + "-" + getID();
+            }
+        }
+        return null;
+    }
+
+    public String getID()
     {
         String id = "" + Algo.randInt(1, 9) + Algo.randInt(1, 9) + Algo.randInt(1, 9);
         while(usedIDs.contains(id))
@@ -52,7 +95,7 @@ public class ServerMap
             id = "" + Algo.randInt(1, 9) + Algo.randInt(1, 9) + Algo.randInt(1, 9);
         }
         usedIDs.add(id);
-        return "pistol-0-0-" + id;
+        return id;
     }
 
     public String generateObstacles()

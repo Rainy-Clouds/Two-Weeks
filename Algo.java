@@ -31,19 +31,27 @@ public class Algo
     // IMPORTANT: adds a border of 50, so you must subtract 25 from x and y when rendering
     public static BufferedImage rotateImage(BufferedImage image, double angle)
     {
-        double rads = Math.toRadians(angle);
-        double sin = Math.abs(Math.sin(rads));
-        double cos = Math.abs(Math.cos(rads));
-        int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin) + 50;
-        int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin) + 50;
-        BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
-        AffineTransform at = new AffineTransform();
-        //at.translate(w / 2, h / 2);
-        at.translate(image.getWidth() / 2 + 25, image.getHeight() / 2 + 25);
-        at.rotate(rads, 0, 0);
-        at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
-        AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-        return rotateOp.filter(image, rotatedImage);
+        try
+        {
+            double rads = Math.toRadians(angle);
+            double sin = Math.abs(Math.sin(rads));
+            double cos = Math.abs(Math.cos(rads));
+            int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin) + 50;
+            int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin) + 50;
+            BufferedImage rotatedImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            AffineTransform at = new AffineTransform();
+            //at.translate(w / 2, h / 2);
+            at.translate(image.getWidth() / 2 + 25, image.getHeight() / 2 + 25);
+            at.rotate(rads, 0, 0);
+            at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
+            AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+            return rotateOp.filter(image, rotatedImage);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace(System.out);
+            return null;
+        }
     }
 
     public static double standardizeDiagonalAngle(double angle)
@@ -92,5 +100,17 @@ public class Algo
         {
             return (int) (num - 0.5);
         }
+    }
+
+    public static boolean anyTrue(boolean[] arr)
+    {
+        for(boolean b : arr)
+        {
+            if(b)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

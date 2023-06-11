@@ -1,20 +1,18 @@
-//import java.awt.*;
-
-public class Jug extends Item
+public class Burger extends Item
 {
-    public Jug(int x, int y, String id)
+    public Burger(int x, int y, String id)
     {
-        super(x, y, id, 10000);
+        super(x, y, id, 2000);
 
-        super.setIcon("icons\\jug.png");
-        super.setHeld("helds\\jug.png");
-        super.setDrop("icons\\jugdrop.png");
-        super.setAnim("helds\\juganim.png");
+        super.setIcon("icons\\burger.png");
+        super.setHeld("helds\\burger.png");
+        super.setDrop("icons\\burgerdrop.png");
+        super.setAnim("helds\\burgeranim.png");
     }
 
     public String getType()
     {
-        return "jug";
+        return "burger";
     }
 
     public void update(Player p)
@@ -32,7 +30,7 @@ public class Jug extends Item
     {
         if(super.canAct())
         {
-            super.animate(600);
+            super.animate(120);
             super.action();
         }
     }

@@ -9,7 +9,7 @@ public class Data
     public static ArrayList<Integer> playerY = new ArrayList<Integer>();
     public static ArrayList<Double> playerRot = new ArrayList<Double>();
     public static ArrayList<String> playerHeld = new ArrayList<String>();
-    public static ArrayList<Integer> playerHealth = new ArrayList<Integer>();
+    public static ArrayList<Double> playerHealth = new ArrayList<Double>();
 
     public static ArrayList<Item> droppedItems = new ArrayList<Item>();
     public static ArrayList<Item> pickedUpItems = new ArrayList<Item>();
@@ -41,6 +41,22 @@ public class Data
                 else if(subparsed[0].equals("pistol"))
                 {
                     droppedItems.add(new Pistol(Integer.valueOf(subparsed[2]), Integer.valueOf(subparsed[3]), subparsed[1]));
+                }
+                else if(subparsed[0].equals("burger"))
+                {
+                    droppedItems.add(new Burger(Integer.valueOf(subparsed[2]), Integer.valueOf(subparsed[3]), subparsed[1]));
+                }
+                else if(subparsed[0].equals("smg"))
+                {
+                    droppedItems.add(new SMG(Integer.valueOf(subparsed[2]), Integer.valueOf(subparsed[3]), subparsed[1]));
+                }
+                else if(subparsed[0].equals("shotgun"))
+                {
+                    droppedItems.add(new Shotgun(Integer.valueOf(subparsed[2]), Integer.valueOf(subparsed[3]), subparsed[1]));
+                }
+                else if(subparsed[0].equals("rifle"))
+                {
+                    droppedItems.add(new Rifle(Integer.valueOf(subparsed[2]), Integer.valueOf(subparsed[3]), subparsed[1]));
                 }
             }
         }

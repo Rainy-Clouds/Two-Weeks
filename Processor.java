@@ -6,6 +6,7 @@ public class Processor
     private ArrayList<Rectangle> playerRects = new ArrayList<Rectangle>();
     private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
     private Game game;
+    private ServerEye eye = new ServerEye(-400, -400, 7200, 4400, 2450, 1850, 100, 100, 300000);
 
     public Processor(Game g)
     {
@@ -48,6 +49,8 @@ public class Processor
 
     public void update()
     {
+        eye.update();
+
         for(int i = 0; i < Data.playerX.size(); i++)
         {
             try
@@ -55,6 +58,22 @@ public class Processor
                 playerRects.get(i).setBounds(Data.playerX.get(i), Data.playerY.get(i), 60, 60);
             }
             catch (Exception e) {}
+        }
+
+        for(int i = 0; i < playerRects.size(); i++)
+        {
+            if(!playerRects.get(i).intersects(eye.getRect()))
+            {
+                Data.playerHealth.set(i, Data.playerHealth.get(i) - 0.25);
+                if(Data.playerHealth.get(i) <= 0)
+                {
+                    try
+                    {
+                        game.getServer().getEcho(i).setKiller("the Storm");
+                    }
+                    catch(Exception e) {}
+                }
+            }
         }
 
         ArrayList<Integer> removals = new ArrayList<Integer>();
@@ -105,7 +124,7 @@ public class Processor
 
     public void playerAct(String action, int playerNum)
     {
-        if(action.equals("pickaxe"))
+        if(action.equals("dagger"))
         {
             Rectangle hitbox = new Rectangle(0, 0, 0, 0);
             daggerHitbox(hitbox, Data.playerX.get(playerNum) + 30, Data.playerY.get(playerNum) + 30, Data.playerRot.get(playerNum));
@@ -129,10 +148,29 @@ public class Processor
                 }
             }
         }
-        else if(action.equals("pistol"))
+        else if(action.equals("pistol") || action.equals("smg") || action.equals("shotgun") || action.equals("rifle"))
         {
             double ang =  Data.playerRot.get(playerNum);
             bullets.add(new Bullet(action, Data.playerX.get(playerNum) + 27 + (int)(27 * Math.cos(Math.toRadians(ang))), Data.playerY.get(playerNum) + 25 + (int)(27 * Math.sin(Math.toRadians(ang))), ang, playerNum));
+        }
+        else if(action.equals("jug-finish"))
+        {
+            Data.playerHealth.set(playerNum, Data.playerHealth.get(playerNum) + 50);
+            if(Data.playerHealth.get(playerNum) > 200)
+            {
+                Data.playerHealth.set(playerNum, 200.0);
+            }
+        }
+        else if(action.equals("burger-finish"))
+        {
+            if(Data.playerHealth.get(playerNum) < 100)
+            {
+                Data.playerHealth.set(playerNum, Data.playerHealth.get(playerNum) + 30);
+                if(Data.playerHealth.get(playerNum) > 100)
+                {
+                    Data.playerHealth.set(playerNum, 100.0);
+                }
+            }
         }
     }
 
@@ -161,6 +199,11 @@ public class Processor
         {
             return ret;
         }
+    }
+
+    public String getEyeData()
+    {
+        return eye.getData();
     }
 
     // for debugging

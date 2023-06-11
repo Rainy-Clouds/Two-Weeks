@@ -60,7 +60,7 @@ public class Server implements Runnable
             Data.playerY.add(null);
             Data.playerRot.add(null);
             Data.playerHeld.add(null);
-            Data.playerHealth.add(100);
+            Data.playerHealth.add(100.0);
         }
 
         game.getBRServer().getProcessor().initializeRects();

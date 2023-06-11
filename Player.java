@@ -177,6 +177,12 @@ public class Player
                     action = inv.currentItem().getType();
                     acted = true;
                 }
+
+                if((inv.currentItem().getType().equals("jug") || inv.currentItem().getType().equals("burger")) && inv.currentItem().getActOnce() && inv.currentItem().canAct())
+                {
+                    action = inv.currentItem().getType() + "-finish";
+                    inv.deleteCurrentItem();
+                }
             }
 
             if(!Panel.keyMap[5])

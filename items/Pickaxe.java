@@ -6,15 +6,15 @@ public class Pickaxe extends Item
     {
         super(false, "player-specific", 150);
 
-        super.setIcon("betaicon.png");
-        super.setHeld("betaheld.png");
-        super.setDrop("betadrop.png");
-        super.setAnim("betaheldanim.png");
+        super.setIcon("icons\\dagger.png");
+        super.setHeld("helds\\dagger.png");
+        super.setDrop("icons\\daggerdrop.png");
+        super.setAnim("helds\\daggeranim.png");
     }
 
     public String getType()
     {
-        return "pickaxe";
+        return "dagger";
     }
 
     public void action()

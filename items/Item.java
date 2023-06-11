@@ -4,11 +4,11 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import java.time.*;
 
-// IMPORTANT: When making a new item, make sure to look up "item rel" and edit every you have to edit
+// IMPORTANT: When making a new item, make sure to look up "item rel" and edit everything you have to edit
 public class Item 
 {
     private BufferedImage icon, held, drop, anim;
-    private boolean dropped, canDrop, animating;
+    private boolean dropped, canDrop, animating, actOnce;
     private int globalX, globalY, delay, cooldown;
     private Rectangle dropRect = new Rectangle(0, 0, 0, 0);
     private String id;
@@ -53,9 +53,19 @@ public class Item
         return cooldown;
     }
 
+    public boolean getActOnce()
+    {
+        return actOnce;
+    }
+
     public boolean animating()
     {
         return animating;
+    }
+
+    public void quitAnimating()
+    {
+        animating = false;
     }
 
     public long getCooltime()
@@ -132,6 +142,11 @@ public class Item
         animating = true;
     }
 
+    public void setActOnce(boolean newAct)
+    {
+        actOnce = newAct;
+    } 
+
     public void renderIcon(Graphics g, int x, int y)
     {
         g.drawImage(icon, x, y, null);
@@ -168,12 +183,13 @@ public class Item
 
     public void action() 
     {
+        actOnce = true;
         actionStart = Instant.now();
     }
 
     public boolean canAct()
     {
-        return Duration.between(actionStart, Instant.now()).toMillis() > cooldown;
+        return !actOnce || Duration.between(actionStart, Instant.now()).toMillis() > cooldown;
     }
 
     public boolean touchingRect(Rectangle other)

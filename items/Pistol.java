@@ -4,10 +4,10 @@ public class Pistol extends Item
     {
         super(x, y, id, 500);
 
-        super.setIcon("betaicon3.png");
-        super.setHeld("betaheld3.png");
-        super.setDrop("betadrop3.png");
-        super.setAnim("betaheldanim3.png");
+        super.setIcon("icons\\pistol.png");
+        super.setHeld("helds\\pistol.png");
+        super.setDrop("icons\\pistoldrop.png");
+        super.setAnim("helds\\pistolanim.png");
     }
 
     public String getType()

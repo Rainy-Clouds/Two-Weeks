@@ -11,13 +11,16 @@ public class Environment
     private TextureLoader tx = new TextureLoader();
     private Map map = new Map();
     private ArrayList<Obstacle> obs = new ArrayList<Obstacle>();
+    private int mapWidth, mapHeight;
+    private StormEye eye;
+
     private BufferedImage otherimg;
 
-    private String[] itemNames = {"pickaxe", "jug", "pistol"}; // item rel
+    private String[] itemNames = {"dagger", "jug", "pistol", "burger", "smg", "shotgun", "rifle"}; // item rel
     private BufferedImage[] helds = new BufferedImage[itemNames.length];
     private BufferedImage[] heldsAni = new BufferedImage[itemNames.length];
 
-    private String[] bulletNames = {"pistol"};
+    private String[] bulletNames = {"pistol", "smg", "shotgun", "rifle"};
     private BufferedImage[] bullets = new BufferedImage[bulletNames.length];
     
     public Environment()
@@ -27,20 +30,36 @@ public class Environment
             tags[i] = new Nametag();
         }
 
+        mapWidth = map.getMap()[0].length * 200;
+        mapHeight = map.getMap().length * 200;
+        eye = new StormEye(0, 0, mapWidth, mapHeight, mapWidth, mapHeight);
+
         // item rel
         try 
         {
             otherimg = ImageIO.read(new File("assets\\betaother.png"));
 
-            helds[0] = ImageIO.read(new File("assets\\betaheld.png"));
-            helds[1] = ImageIO.read(new File("assets\\betaheld2.png"));
-            helds[2] = ImageIO.read(new File("assets\\betaheld3.png"));
+            // use a for soon...
+            // helds[0] = ImageIO.read(new File("assets\\helds\\dagger.png"));
+            // helds[1] = ImageIO.read(new File("assets\\helds\\jug.png"));
+            // helds[2] = ImageIO.read(new File("assets\\helds\\pistol.png"));
 
-            heldsAni[0] = ImageIO.read(new File("assets\\betaheldanim.png"));
-            heldsAni[1] = ImageIO.read(new File("assets\\betaheld2.png"));
-            heldsAni[2] = ImageIO.read(new File("assets\\betaheldanim3.png"));
+            for(int i = 0; i < itemNames.length; i++)
+            {
+                helds[i] = ImageIO.read(new File("assets\\helds\\" + itemNames[i] + ".png"));
+                heldsAni[i] = ImageIO.read(new File("assets\\helds\\" + itemNames[i] + "anim.png"));
+            }
 
-            bullets[0] = ImageIO.read(new File("assets\\betabullet.png"));
+            // heldsAni[0] = ImageIO.read(new File("assets\\helds\\\\daggeranim.png"));
+            // heldsAni[1] = ImageIO.read(new File("assets\\helds\\juganim.png"));
+            // heldsAni[2] = ImageIO.read(new File("assets\\helds\\pistolanim.png"));
+
+            for(int i = 0; i < bulletNames.length; i++)
+            {
+                bullets[i] = ImageIO.read(new File("assets\\bullets\\" + bulletNames[i] + "bullet.png"));
+            }
+
+            //bullets[0] = ImageIO.read(new File("assets\\betabullet.png"));
         }
         catch(Exception e)
         {
@@ -60,6 +79,12 @@ public class Environment
         // obs.add(new Tree(500, 500));
 
         
+    }
+
+    public void updateStormEye(String eyeData)
+    {
+        String[] parsed = eyeData.split("&");
+        eye.updateBounds(Integer.valueOf(parsed[0]), Integer.valueOf(parsed[1]), Integer.valueOf(parsed[2]), Integer.valueOf(parsed[3]));
     }
 
     public ArrayList<Obstacle> getObstacles()
@@ -114,6 +139,8 @@ public class Environment
             }
         }
         //drawBullets(g, player); // TESTING ONLY
+
+        eye.render(g, player);
     }
 
     public void drawHeld(Graphics g, Player p, int ind, String name)
@@ -142,7 +169,7 @@ public class Environment
         if(Data.bulletData != null)
         {
             String[] superparsed = Data.bulletData.split(":");
-            System.out.println(Arrays.toString(superparsed));
+            //System.out.println(Arrays.toString(superparsed));
             for(String str : superparsed)
             {
                 String[] parsed = str.split("&");

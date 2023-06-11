@@ -34,6 +34,15 @@ public class Inventory
         //         items[activeSpot - 1] = null;
         //     }
         // }
+
+        for(int i = 0; i < spots; i++)
+        {
+            if(i != activeSpot - 1 && items[i] != null && (items[i].getType().equals("jug") || items[i].getType().equals("burger")))
+            {
+                items[i].setActOnce(false);
+                items[i].quitAnimating();
+            }
+        }
     }
 
     public Item dropItem(Player p)
@@ -46,6 +55,14 @@ public class Inventory
             return returnItem;
         }
         return null;
+    }
+
+    public void deleteCurrentItem()
+    {
+        if(items[activeSpot - 1] != null)
+        {
+            items[activeSpot - 1] = null;
+        }
     }
 
     public void render(Graphics g)

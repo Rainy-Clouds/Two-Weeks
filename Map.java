@@ -91,7 +91,7 @@ public class Map
         {
             for(int j = 0; j < map[i].length; j++)
             {
-                if(map[i][j].equals("g"))
+                if(map[i][j].equals("g") || map[i][j].equals("i"))
                 {
                     tiles.add(new Grass(j, i));
                 }
@@ -120,6 +120,11 @@ public class Map
                 }
             }
         }
+    }
+
+    public String[][] getMap()
+    {
+        return map;
     }
 
     public ArrayList<Obstacle> updateObstacles()
@@ -256,6 +261,22 @@ public class Map
         if(parsed[0].equals("pistol"))
         {
             Data.droppedItems.add(new Pistol(gridX * 200 + Integer.valueOf(parsed[1]), gridY * 200 + Integer.valueOf(parsed[2]), parsed[3]));
+        }
+        if(parsed[0].equals("burger"))
+        {
+            Data.droppedItems.add(new Burger(gridX * 200 + Integer.valueOf(parsed[1]), gridY * 200 + Integer.valueOf(parsed[2]), parsed[3]));
+        }
+        if(parsed[0].equals("smg"))
+        {
+            Data.droppedItems.add(new SMG(gridX * 200 + Integer.valueOf(parsed[1]), gridY * 200 + Integer.valueOf(parsed[2]), parsed[3]));
+        }
+        if(parsed[0].equals("shotgun"))
+        {
+            Data.droppedItems.add(new Shotgun(gridX * 200 + Integer.valueOf(parsed[1]), gridY * 200 + Integer.valueOf(parsed[2]), parsed[3]));
+        }
+        if(parsed[0].equals("rifle"))
+        {
+            Data.droppedItems.add(new Rifle(gridX * 200 + Integer.valueOf(parsed[1]), gridY * 200 + Integer.valueOf(parsed[2]), parsed[3]));
         }
     }
 
