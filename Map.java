@@ -103,9 +103,20 @@ public class Map
                 {
                     tiles.add(new Bridge(j, i));
                 }
-                if(map[i][j].equals("p"))
+                if(map[i][j].equals("p") || map[i][j].equals("s"))
                 {
                     tiles.add(new Path(j, i));
+                }
+            }
+        }
+
+        for(int i = -2; i < map.length + 2; i++)
+        {
+            for(int j = -2; j < map[0].length + 2; j++)
+            {
+                if(getTileAt(j, i) == null)
+                {
+                    tiles.add(new Water(j, i));
                 }
             }
         }

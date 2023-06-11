@@ -77,9 +77,11 @@ public class Client implements Runnable
                     //System.out.println(Arrays.toString(parsed));
                     if(parsed[0].equals("start"))
                     {
-                        playerNum = Integer.valueOf(parsed[1]);
+                        game.getBRClient().getPlayer().setCoords(Integer.valueOf(parsed[1]), Integer.valueOf(parsed[2]));
+                        playerNum = Integer.valueOf(parsed[3]);
                         Transition.switchState("battle royale");
-                        game.getBRClient().getEnvironment().loadTiles(Arrays.copyOfRange(parsed, 2, parsed.length));
+                        game.getBRClient().getEnvironment().loadTiles(Arrays.copyOfRange(parsed, 4, parsed.length));
+                        game.getBRClient().getPlayer().setMovable(true);
                     }
                 }
                 if(game.getState().equals("battle royale"))

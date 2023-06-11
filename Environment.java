@@ -58,6 +58,8 @@ public class Environment
         // obs.add(new Rock(400, 400, 100));
         // obs.add(new Bush(100, 0));
         // obs.add(new Tree(500, 500));
+
+        
     }
 
     public ArrayList<Obstacle> getObstacles()

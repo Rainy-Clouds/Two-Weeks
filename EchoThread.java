@@ -82,7 +82,7 @@ public class EchoThread extends Thread
                         Data.names.set(playerNum, parsed[1]);
                         if(message != null && message.equals("start"))
                         {
-                            printer.println(message + "~" + playerNum + game.getServer().getMap().getObstacleString());
+                            printer.println(message + "~" + game.getServer().getMap().getSpawnCoords(playerNum)[0] + "~" + game.getServer().getMap().getSpawnCoords(playerNum)[1] + "~" + playerNum + game.getServer().getMap().getObstacleString());
                         }
                         else
                         {

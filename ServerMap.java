@@ -5,6 +5,7 @@ public class ServerMap
     private String[][] mapData;
     private String obsString;
     private ArrayList<String> usedIDs = new ArrayList<String>();
+    private ArrayList<int[]> spawnCoords = new ArrayList<int[]>();
 
     public ServerMap(String path)
     {
@@ -28,9 +29,19 @@ public class ServerMap
                 {
                     base += "~" + j + " " + i + " " + generateObstacles() + " " + generateItems();
                 }
+                if(mapData[i][j].equals("s"))
+                {
+                    int[] coords = {j * 200 + 70, i * 200 + 70};
+                    spawnCoords.add(coords);
+                }
             }
         }
         return base;
+    }
+
+    public int[] getSpawnCoords(int playerNum)
+    {
+        return spawnCoords.get(playerNum);
     }
 
     public String generateItems()

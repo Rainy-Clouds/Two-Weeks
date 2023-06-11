@@ -12,7 +12,7 @@ public class Player
     private Rectangle rect, rectL, rectR, rectT, rectB;
     private BufferedImage img;
     private boolean pickedAlready, acted;
-    private boolean movable = true;
+    private boolean movable;
 
     private Pickaxe pick = new Pickaxe();
     private Inventory inv = new Inventory(4, pick);
@@ -68,6 +68,17 @@ public class Player
     public Health getHealth()
     {
         return hp;
+    }
+
+    public void setCoords(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setMovable(boolean move)
+    {
+        movable = move;
     }
 
     public String itemUpdate()
