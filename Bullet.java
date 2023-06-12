@@ -18,9 +18,9 @@ public class Bullet
         {
             width = 5;
             height = 10;
-            speed = 15;
+            speed = 17;
             maxDistance = 800;
-            damage = 15;
+            damage = 25;
         }
         else if(type.equals("smg"))
         {
@@ -28,23 +28,23 @@ public class Bullet
             height = 10;
             speed = 16;
             maxDistance = 600;
-            damage = 10;
+            damage = 20;
         }
         else if(type.equals("shotgun"))
         {
             width = 6;
             height = 9;
-            speed = 12;
+            speed = 15;
             maxDistance = 400;
-            damage = 22;
+            damage = 50;
         }
         else if(type.equals("rifle"))
         {
             width = 5;
             height = 12;
-            speed = 19;
+            speed = 20;
             maxDistance = 1000;
-            damage = 12;
+            damage = 40;
         }
 
         int newWidth = (int) (Math.abs(Math.sin(Math.toRadians(angle)) * height) + Math.abs(Math.cos(Math.toRadians(angle)) * width));

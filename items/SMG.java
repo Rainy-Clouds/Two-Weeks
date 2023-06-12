@@ -2,7 +2,7 @@ public class SMG extends Item
 {
     public SMG(int x, int y, String id)
     {
-        super(x, y, id, 300); //change
+        super(x, y, id, 350); //change
 
         super.setIcon("icons\\smg.png");
         super.setHeld("helds\\smg.png");
