@@ -2,7 +2,7 @@ public class Shotgun extends Item
 {
     public Shotgun(int x, int y, String id)
     {
-        super(x, y, id, 900);
+        super(x, y, id, 850);
 
         super.setIcon("icons\\shotgun.png");
         super.setHeld("helds\\shotgun.png");
