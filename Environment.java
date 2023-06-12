@@ -14,8 +14,6 @@ public class Environment
     private int mapWidth, mapHeight;
     private StormEye eye;
 
-    private BufferedImage otherimg;
-
     private String[] itemNames = {"dagger", "jug", "pistol", "burger", "smg", "shotgun", "rifle"}; // item rel
     private BufferedImage[] helds = new BufferedImage[itemNames.length];
     private BufferedImage[] heldsAni = new BufferedImage[itemNames.length];
@@ -37,8 +35,6 @@ public class Environment
         // item rel
         try 
         {
-            otherimg = ImageIO.read(new File("assets\\betaother.png"));
-
             // use a for soon...
             // helds[0] = ImageIO.read(new File("assets\\helds\\dagger.png"));
             // helds[1] = ImageIO.read(new File("assets\\helds\\jug.png"));
@@ -133,7 +129,7 @@ public class Environment
                 //g.setColor(Color.BLUE);
                 //g.fillRect(getLocalX(i, player), getLocalY(i, player), BattleRoyaleClient.playerSize, BattleRoyaleClient.playerSize);
                 drawHeld(g, player, i, Data.playerHeld.get(i));
-                g.drawImage(Algo.rotateImage(otherimg, Data.playerRot.get(i)), getLocalX(i, player) - 25, getLocalY(i, player) - 25, null);
+                g.drawImage(Algo.rotateImage(SkinChooser.imgs[Data.playerSkins.get(i)], Data.playerRot.get(i)), getLocalX(i, player) - 25, getLocalY(i, player) - 25, null);
                 tags[i].setName(Data.names.get(i));
                 tags[i].render(g, getLocalX(i, player) + BattleRoyaleClient.playerSize / 2, getLocalY(i, player) - 30);
             }

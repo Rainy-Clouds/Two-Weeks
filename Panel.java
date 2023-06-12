@@ -20,6 +20,7 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
     public static TextField currentField;
     public static boolean[] keyMap = new boolean[6]; // w s a d q e
     public static boolean[] numMap = new boolean[10]; // u have to guess for this one LMAOOOOO
+    public static boolean[] arrowMap = new boolean[4]; // up down left right
 
     public Panel()
     {
@@ -165,6 +166,23 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
         {
             keyMap[5] = true;
         }
+
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Up"))
+        {
+            arrowMap[0] = true;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Down"))
+        {
+            arrowMap[1] = true;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Left"))
+        {
+            arrowMap[2] = true;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Right"))
+        {
+            arrowMap[3] = true;
+        }
         
         try
         {
@@ -198,6 +216,23 @@ public class Panel extends JPanel implements Runnable, MouseListener, MouseMotio
         if(KeyEvent.getKeyText(e.getKeyCode()).equals("E"))
         {
             keyMap[5] = false;
+        }
+
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Up"))
+        {
+            arrowMap[0] = false;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Down"))
+        {
+            arrowMap[1] = false;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Left"))
+        {
+            arrowMap[2] = false;
+        }
+        if(KeyEvent.getKeyText(e.getKeyCode()).equals("Right"))
+        {
+            arrowMap[3] = false;
         }
 
         try

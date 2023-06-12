@@ -7,6 +7,7 @@ public class ClientGUI
     private TextField nameField = new TextField(150, 250, 500, 50, 36, 1, this);
     private String currentMenu = "ip";
     private int selfOffset = 0;
+    private SkinChooser chooser = new SkinChooser();
 
     public void update()
     {
@@ -20,6 +21,7 @@ public class ClientGUI
                 selfOffset = -800;
             }
         }
+        chooser.update();
     }
 
     public void startConnecting()
@@ -73,16 +75,19 @@ public class ClientGUI
         }
 
         nameField.setPermActive(currentMenu.equals("name"));
-        nameField.setLocation(1750 + offset + selfOffset, 250);
+        nameField.setLocation(1750 + offset + selfOffset, 170);
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 24));
-        g.drawString("Enter your in-game name below", 1750 + offset + selfOffset, 240);
+        g.drawString("Enter your in-game name below", 1750 + offset + selfOffset, 160);
         nameField.render(g);
         g.setFont(new Font("Arial", Font.PLAIN, 24));
         if(invalidname)
         {
             g.setColor(Color.RED);
-            g.drawString("Name cannot include spaces!", 1750 + offset + selfOffset, 325);
+            g.drawString("Name cannot include spaces!", 1750 + offset + selfOffset, 245);
         }
+
+        //System.out.println(offset + ", " + selfOffset);
+        chooser.render(g, offset + selfOffset);
     }
 }

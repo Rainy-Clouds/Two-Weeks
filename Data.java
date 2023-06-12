@@ -10,12 +10,16 @@ public class Data
     public static ArrayList<Double> playerRot = new ArrayList<Double>();
     public static ArrayList<String> playerHeld = new ArrayList<String>();
     public static ArrayList<Double> playerHealth = new ArrayList<Double>();
+    public static ArrayList<Integer> playerKills = new ArrayList<Integer>();
+    public static ArrayList<Integer> playerSkins = new ArrayList<Integer>();
 
     public static ArrayList<Item> droppedItems = new ArrayList<Item>();
     public static ArrayList<Item> pickedUpItems = new ArrayList<Item>();
     public static int placement;
     public static String killer;
     public static String bulletData;
+    public static boolean win;
+    public static int kills;
 
     public static void actOnItems(String actData)
     {

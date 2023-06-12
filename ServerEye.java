@@ -32,6 +32,11 @@ public class ServerEye
         rect = new Rectangle(x, y, width, height);
     }
 
+    public void startNow()
+    {
+        start = Instant.now();
+    }
+
     public String getData()
     {
         return x + "&" + y + "&" + width + "&" + height;

@@ -104,11 +104,18 @@ public class EchoThread extends Thread
                         }
                         Data.playerHeld.set(playerNum, parsed[5]);
                         game.getBRServer().getProcessor().playerAct(parsed[6], playerNum);
+                        Data.playerSkins.set(playerNum, Integer.valueOf(parsed[7]));
                         //System.out.println(Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY));
-                        System.out.println(Arrays.toString(parsed));
-                        if(Data.playerHealth.get(playerNum) > 0)
+                        //System.out.println(Arrays.toString(parsed));
+                        if(game.getServer().getEchoes().size() < 2)
                         {
-                            printer.println("alive~" + Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld) + "~" + Data.playerHealth.get(playerNum) + "~" + game.getBRServer().getProcessor().getBulletData(playerNum) + "~" + game.getBRServer().getProcessor().getEyeData());
+                            printer.println("victory~" + Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld) + "~" + Data.playerHealth.get(playerNum) + "~" + game.getBRServer().getProcessor().getBulletData(playerNum) + "~" + game.getBRServer().getProcessor().getEyeData() + "~" + Converter.intArrLToString(Data.playerSkins) + "~" + Data.playerKills.get(playerNum));
+                            running = false;
+                            game.getServer().getEchoes().remove(this);
+                        }
+                        else if(Data.playerHealth.get(playerNum) > 0)
+                        {
+                            printer.println("alive~" + Converter.stringListToString(Data.names) + "~" + Converter.intArrLToString(Data.playerX) + "~" + Converter.intArrLToString(Data.playerY) + "~" + Converter.doubleArrLToString(Data.playerRot) + "~" + itemUpdates + "~" + Converter.stringListToString(Data.playerHeld) + "~" + Data.playerHealth.get(playerNum) + "~" + game.getBRServer().getProcessor().getBulletData(playerNum) + "~" + game.getBRServer().getProcessor().getEyeData() + "~" + Converter.intArrLToString(Data.playerSkins));
                         }
                         else
                         {
@@ -143,6 +150,7 @@ public class EchoThread extends Thread
             }
             catch(Exception e)
             {
+                e.printStackTrace(System.out);
                 //e.printStackTrace(System.out);
 
                 if(e.getMessage().equals("Connection reset"))

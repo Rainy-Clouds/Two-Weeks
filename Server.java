@@ -52,6 +52,7 @@ public class Server implements Runnable
         for(int i = 0; i < echoes.size(); i++)
         {
             echoes.get(i).relayMessage("start");
+            game.getBRServer().getProcessor().getServerEye().startNow();
         }
 
         for(int i = 0; i < Data.names.size(); i++)
@@ -61,6 +62,8 @@ public class Server implements Runnable
             Data.playerRot.add(null);
             Data.playerHeld.add(null);
             Data.playerHealth.add(100.0);
+            Data.playerKills.add(0);
+            Data.playerSkins.add(0);
         }
 
         game.getBRServer().getProcessor().initializeRects();

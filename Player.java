@@ -1,8 +1,5 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 
 public class Player 
 {
@@ -10,7 +7,6 @@ public class Player
     private double angle;
     private Nametag tag = new Nametag();
     private Rectangle rect, rectL, rectR, rectT, rectB;
-    private BufferedImage img;
     private boolean pickedAlready, acted;
     private boolean movable;
 
@@ -21,6 +17,8 @@ public class Player
     private Health hp = new Health(100);
     private String action;
     private Rectangle hitbox = new Rectangle(0, 0, 0, 0); // purely for testing
+
+    public static int skinNum;
     
     public Player(int x, int y, int w, int h)
     {
@@ -34,15 +32,6 @@ public class Player
         rectR = new Rectangle((int) (rect.getX() + rect.getWidth()), (int) rect.getY(), 1, height);
         rectT = new Rectangle((int) rect.getX(), (int) rect.getY() - 1, width, 1);
         rectB = new Rectangle((int) rect.getX(), (int) (rect.getY() + rect.getHeight()), width, 1);
-
-        try
-        {
-            img = ImageIO.read(new File("assets\\betaplayer.png"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace(System.out);
-        }
     }
 
     public int getX()
@@ -338,7 +327,7 @@ public class Player
         {
             g.drawImage(Algo.rotateImage(inv.currentItem().getHeld(), angle), 400 - 60 - 25, 300 - 60 - 25, null);
         }
-        g.drawImage(Algo.rotateImage(img, angle), 400 - width / 2 - 25, 300 - height / 2 - 25, null);
+        g.drawImage(Algo.rotateImage(SkinChooser.imgs[skinNum], angle), 400 - width / 2 - 25, 300 - height / 2 - 25, null);
         // g.setColor(Color.PINK);
         // renderRect(rectB, g);
         // renderRect(rectL, g);

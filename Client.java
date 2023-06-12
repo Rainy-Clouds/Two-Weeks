@@ -87,12 +87,12 @@ public class Client implements Runnable
                 if(game.getState().equals("battle royale"))
                 {
                     Player p = game.getBRClient().getPlayer();
-                    dout.println("B " + p.getX() + " " + p.getY() + " " + p.getAng() + " " + p.itemUpdate() + " " + p.getActiveItem() + " " + p.actionUpdate());
+                    dout.println("B " + p.getX() + " " + p.getY() + " " + p.getAng() + " " + p.itemUpdate() + " " + p.getActiveItem() + " " + p.actionUpdate() + " " + Player.skinNum);
                     String str = reader.readLine();
                     //System.out.println(str);
                     String[] parsed = str.split("~");
                     //System.out.println(Arrays.toString(parsed));
-                    if(parsed[0].equals("alive"))
+                    if(parsed[0].equals("alive") || parsed[0].equals("victory"))
                     {
                         Data.names = Converter.stringToStringList(parsed[1]);
                         Data.playerX = Converter.stringToIntArrL(parsed[2]);
@@ -106,13 +106,21 @@ public class Client implements Runnable
                         p.getHealth().setHealth(Double.valueOf(parsed[7]));
                         Data.bulletData = parsed[8];
                         game.getBRClient().getEnvironment().updateStormEye(parsed[9]);
+                        Data.playerSkins = Converter.stringToIntArrL(parsed[10]);
                     }
-                    else
+                    else if(parsed[0].equals("dead"))
                     {
                         p.getHealth().setHealth(Double.valueOf(parsed[1]));
                         Data.placement = Integer.valueOf(parsed[2]);
                         Data.killer = parsed[3];
                         dout.println(p.dropAll());
+                        running = false;
+                    }
+
+                    if(parsed[0].equals("victory"))
+                    {
+                        Data.kills = Integer.valueOf(parsed[11]);
+                        Data.win = true;
                         running = false;
                     }
                 }

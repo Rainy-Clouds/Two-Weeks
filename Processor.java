@@ -7,10 +7,16 @@ public class Processor
     private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
     private Game game;
     private ServerEye eye = new ServerEye(-400, -400, 7200, 4400, 2450, 1850, 100, 100, 300000);
+    private boolean winner;
 
     public Processor(Game g)
     {
         game = g;
+    }
+
+    public ServerEye getServerEye()
+    {
+        return eye;
     }
 
     public void initializeRects()
@@ -49,7 +55,10 @@ public class Processor
 
     public void update()
     {
-        eye.update();
+        if(!winner)
+        {
+            eye.update();
+        }
 
         for(int i = 0; i < Data.playerX.size(); i++)
         {
@@ -62,7 +71,7 @@ public class Processor
 
         for(int i = 0; i < playerRects.size(); i++)
         {
-            if(!playerRects.get(i).intersects(eye.getRect()))
+            if(!playerRects.get(i).intersects(eye.getRect()) && !winner)
             {
                 Data.playerHealth.set(i, Data.playerHealth.get(i) - 0.25);
                 if(Data.playerHealth.get(i) <= 0)
@@ -72,6 +81,8 @@ public class Processor
                         game.getServer().getEcho(i).setKiller("the Storm");
                     }
                     catch(Exception e) {}
+
+                    checkForWin();
                 }
             }
         }
@@ -98,12 +109,13 @@ public class Processor
         {
             for(int j = 0; j < bullets.size(); j++)
             {
-                if(i != bullets.get(j).getPlayerFired() && playerRects.get(i).intersects(bullets.get(j).getRect()))
+                if(i != bullets.get(j).getPlayerFired() && playerRects.get(i).intersects(bullets.get(j).getRect()) && !winner)
                 {
                     Data.playerHealth.set(i, Data.playerHealth.get(i) - bullets.get(j).getDamage());
                     removals.add(j);
                     if(Data.playerHealth.get(i) <= 0)
                     {
+                        Data.playerKills.set(bullets.get(j).getPlayerFired(), Data.playerKills.get(bullets.get(j).getPlayerFired()) + 1);
                         try
                         {
                             game.getServer().getEcho(i).setKiller(Data.names.get(bullets.get(j).getPlayerFired()));
@@ -112,6 +124,8 @@ public class Processor
                     }
                 }
             }
+
+            checkForWin();
         }
 
         chacha = 0;
@@ -119,6 +133,14 @@ public class Processor
         {
             bullets.remove(i - chacha);
             chacha++;
+        }
+    }
+
+    public void checkForWin()
+    {
+        if(game.getServer().getEchoes().size() < 2)
+        {
+            winner = true;
         }
     }
 
@@ -131,18 +153,25 @@ public class Processor
 
             for(int i = 0; i < playerRects.size(); i++)
             {
-                if(i != playerNum && Data.playerHealth.get(i) > 0)
+                if(i != playerNum && Data.playerHealth.get(i) > 0 && !winner)
                 {
                     if(playerRects.get(i).intersects(hitbox))
                     {
                         Data.playerHealth.set(i, Data.playerHealth.get(i) - 5);
                         if(Data.playerHealth.get(i) <= 0)
                         {
+                            Data.playerKills.set(playerNum, Data.playerKills.get(playerNum) + 1);
                             try
                             {
                                 game.getServer().getEcho(i).setKiller(Data.names.get(playerNum));
                             }
                             catch(Exception e) {}
+
+                            checkForWin();
+                            if(winner)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
